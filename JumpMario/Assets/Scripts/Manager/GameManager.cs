@@ -3,41 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Runningboy.Utility;
+using Runningboy.Collection;
 
 namespace Runningboy.Manager
 {
-    #region CallbackArgs
-
-    public abstract class DragCallbackArgs : EventArgs
-    {
-        public Vector3 touchPos;
-    }
-
-    public class BeginDragCallbackArgs : DragCallbackArgs
-    {
-
-    }
-
-    public class DuringDragCallbackArgs : DragCallbackArgs
-    {
-
-    }
-
-    public class EndDragCallbackArgs : DragCallbackArgs
-    {
-        public Vector3 dir;
-    }
-
-    #endregion
-
     public class GameManager : Singleton<GameManager>
     {
-        public void GetPlayerStatus()
-        {
-            
-        }
-
-        #region InGameFields
+        #region Drag Event
 
         public event EventHandler onBeginDrag;
         public event EventHandler onDuringDrag;
