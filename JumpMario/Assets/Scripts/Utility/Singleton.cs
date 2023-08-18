@@ -1,34 +1,75 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Runningboy.Utility
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        public static T instance { get; private set; }
+        public static T instance
+        { 
+            get
+            {
+                if (_instance == null)
+                {
+                    GetInstance();
+                }
+
+                return _instance;
+            }
+        }
+        protected static T _instance = null;
+        protected static bool instantiated = false;
+
         protected bool destroyed = false;
 
         protected virtual void Awake()
         {
-            if (instance != null)
+            if (destroyed)
+                return;
+
+            if (_instance == null)
             {
-                Destroy(gameObject);
-                destroyed = true;
+                SetInstance(this as T);
+            }
+            else if (_instance != this)
+            {
                 Debug.LogError("Instance already created.");
+                destroyed = true;
+                Destroy(gameObject);
 
                 return;
             }
+        }
 
-            if (this is T ins)
+        private static void SetInstance(T ins)
+        {
+            _instance = ins;
+            instantiated = true;
+            (ins as Singleton<T>).destroyed = false;
+            DontDestroyOnLoad(ins);
+        }
+
+        private static void GetInstance()
+        {
+            var objs = FindObjectsOfType<T>();
+
+            if (objs.Length == 0)
             {
-                instance = ins;
-                DontDestroyOnLoad(gameObject);
+                Debug.LogError($"Place the {typeof(T).Name} in the scene.");
+
+                return;
             }
-            else
+            else if (objs.Length > 1)
             {
-                Debug.LogError("Formal parameter error.");
+                Debug.LogError($"The scene contains more than one {typeof(T).Name}. Unintended behavior can be detected.");
+                for (int i = 1; i < objs.Length; i++)
+                {
+                    (objs[i] as Singleton<T>).destroyed = true;
+                    Destroy(objs[i]);
+                }
             }
+
+            SetInstance(objs[0]);
         }
     }
 }
