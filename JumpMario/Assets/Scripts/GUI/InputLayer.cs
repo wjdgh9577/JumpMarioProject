@@ -15,7 +15,7 @@ namespace Runningboy.GUI
             mainCam = Camera.main;
         }
 
-        #region Drag
+        #region Drag Event
 
         Vector3 startPos;
         Vector3 currentPos;
@@ -48,6 +48,7 @@ namespace Runningboy.GUI
             return returnPosition;
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (isDrag)
@@ -56,6 +57,7 @@ namespace Runningboy.GUI
                 Gizmos.DrawLine(startPos, currentPos);
             }
         }
+#endif
 
         #endregion
     }

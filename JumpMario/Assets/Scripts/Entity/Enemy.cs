@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace Runningboy.Entity
 {
-    public class Enemy : CustomBehaviour
+    public class Enemy : Entity
     {
-
+        private void Awake()
+        {
+            tag = "Enemy";
+        }
     }
 }
