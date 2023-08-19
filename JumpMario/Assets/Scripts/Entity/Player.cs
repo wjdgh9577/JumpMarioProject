@@ -3,6 +3,7 @@ using UnityEngine;
 using Runningboy.Collection;
 using Runningboy.Manager;
 using Sirenix.OdinInspector;
+using System.Collections;
 
 namespace Runningboy.Entity
 {
@@ -44,6 +45,8 @@ namespace Runningboy.Entity
             instance.onEndDrag += OnEndDrag;
 
             tag = "Player";
+
+            StartCoroutine(CorrectionCoroutine());
         }
 
         private void OnDisable()
@@ -52,6 +55,8 @@ namespace Runningboy.Entity
             instance.onBeginDrag -= OnBeginDrag;
             instance.onDuringDrag -= OnDuringDrag;
             instance.onEndDrag -= OnEndDrag;
+
+            StopAllCoroutines();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -66,7 +71,7 @@ namespace Runningboy.Entity
                     }
                     break;
                 _loop:
-                    SetTrigger("Land");
+                    SetStatus(EntityStatus.Idle);
                     break;
                 default:
                     break;
@@ -80,7 +85,7 @@ namespace Runningboy.Entity
                 case "Ground":
                     if ((_status & CanJump) != 0)
                     {
-                        SetTrigger("Fall");
+                        SetStatus(EntityStatus.Fall);
                     }
                     break;
                 default:
@@ -96,7 +101,7 @@ namespace Runningboy.Entity
             {
                 if ((_status & EntityStatus.Idle) != 0)
                 {
-                    SetTrigger("Crouch");
+                    SetStatus(EntityStatus.Crouch);
                 }
             }
         }
@@ -107,7 +112,7 @@ namespace Runningboy.Entity
             {
                 if ((_status & EntityStatus.Idle) != 0)
                 {
-                    SetTrigger("Crouch");
+                    SetStatus(EntityStatus.Crouch);
                 }
 
                 Vector3 start = GUIManager.instance.ScreenToWorldPoint(args.startScreenPosition);
@@ -158,7 +163,7 @@ namespace Runningboy.Entity
                         {
                             Debug.Log("Return to Idle");
 
-                            SetTrigger("Cancel");
+                            SetStatus(EntityStatus.Idle);
                         }
                         break;
                     case EntityStatus.Jump:
@@ -189,7 +194,7 @@ namespace Runningboy.Entity
             _spriteRenderer.flipX = dir.x < 0;
             _rigidbody.velocity = dir * Mathf.Sqrt(force);
 
-            SetTrigger("Jump");
+            SetStatus(EntityStatus.Jump);
         }
 
         private void SuperJump(Vector2 dir, float force)
@@ -197,7 +202,7 @@ namespace Runningboy.Entity
             _spriteRenderer.flipX = dir.x < 0;
             _rigidbody.velocity = dir * Mathf.Sqrt(force);
 
-            SetTrigger("SuperJump");
+            SetStatus(EntityStatus.SuperJump);
         }
 
         private void Slide(Vector2 dir, float force)
@@ -205,7 +210,7 @@ namespace Runningboy.Entity
             _spriteRenderer.flipX = dir.x < 0;
             _rigidbody.velocity = dir * Mathf.Sqrt(force);
 
-            SetTrigger("Land");
+            SetStatus(EntityStatus.Idle);
         }
 
         #endregion
@@ -222,34 +227,52 @@ namespace Runningboy.Entity
             _arrow.SetPosition(1, normalized * range);
         }
 
-        protected override void SetTrigger(string name)
+        private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+        private IEnumerator CorrectionCoroutine()
         {
-            base.SetTrigger(name);
-
-            switch (name)
+            Vector2 beforeVelocity = _rigidbody.velocity;
+            while (true)
             {
-                case "Land":
-                case "Cancel":
-                    _status = EntityStatus.Idle;
+                yield return waitForFixedUpdate;
+                Vector2 afterVelocity = _rigidbody.velocity;
+                if (beforeVelocity == afterVelocity && (_status & CanJump) == 0)
+                {
+                    SetStatus(EntityStatus.Idle);
+                }
+            }
+        }
+
+        private void SetStatus(EntityStatus status)
+        {
+            _status = status;
+
+            string trigger;
+            switch (status)
+            {
+                case EntityStatus.Idle:
+                    trigger = "Land";
                     break;
-                case "Crouch":
-                    _status = EntityStatus.Crouch;
+                case EntityStatus.Crouch:
+                    trigger = "Crouch";
                     break;
-                case "Fall":
-                    _status = EntityStatus.Fall;
+                case EntityStatus.Fall:
+                    trigger = "Fall";
                     break;
-                case "Jump":
-                    _status = EntityStatus.Jump;
+                case EntityStatus.Jump:
+                    trigger = "Jump";
                     break;
-                case "SuperJump":
-                    _status = EntityStatus.SuperJump;
+                case EntityStatus.SuperJump:
+                    trigger = "SuperJump";
                     break;
-                case "Die":
-                    _status = EntityStatus.Die;
+                case EntityStatus.Die:
+                    trigger = "Die";
                     break;
                 default:
+                    trigger = "Default";
                     break;
             }
+
+            SetTrigger(trigger);
         }
     }
 }
