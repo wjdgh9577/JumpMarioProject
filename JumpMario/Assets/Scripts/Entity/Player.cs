@@ -45,8 +45,6 @@ namespace Runningboy.Entity
             instance.onEndDrag += OnEndDrag;
 
             tag = "Player";
-
-            StartCoroutine(CorrectionCoroutine());
         }
 
         private void OnDisable()
@@ -55,8 +53,6 @@ namespace Runningboy.Entity
             instance.onBeginDrag -= OnBeginDrag;
             instance.onDuringDrag -= OnDuringDrag;
             instance.onEndDrag -= OnEndDrag;
-
-            StopAllCoroutines();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -85,7 +81,7 @@ namespace Runningboy.Entity
                 case "Ground":
                     if ((_status & CanJump) != 0)
                     {
-                        SetStatus(EntityStatus.Fall);
+                        SetStatus(EntityStatus.Jump);
                     }
                     break;
                 default:
@@ -136,42 +132,27 @@ namespace Runningboy.Entity
 
                 Vector2 newVector = args.reverse ? currnet - start : start - currnet;
                 Vector2 normalized = newVector.normalized;
-                float range = newVector.sqrMagnitude;
+                float range = MathF.Sqrt(newVector.sqrMagnitude);
                 
                 switch (_status)
                 {
                     case EntityStatus.Idle:
                     case EntityStatus.Crouch:
-                        if (range >= _minRange)
+                        if (range >= _minRange) // Jump or Slide
                         {
-                            if (normalized.y > 0)
-                            {
-                                Debug.Log("Jump");
+                            range = Mathf.Min(range, _maxRange);
 
-                                range = Mathf.Clamp(newVector.sqrMagnitude, _minRange, _maxRange);
-
-                                Jump(normalized, range * _forceRatio);
-                            }
-                            else
-                            {
-                                Debug.Log("Slide");
-
-                                Slide(normalized, range * _forceRatio);
-                            }
+                            AddForce(normalized, range * _forceRatio);
                         }
-                        else
+                        else // Cancel
                         {
-                            Debug.Log("Return to Idle");
-
                             SetStatus(EntityStatus.Idle);
                         }
                         break;
                     case EntityStatus.Jump:
-                        if (range >= _minRange && Mathf.Abs(_rigidbody.velocity.y) <= _superJumpAllowable)
+                        if (range >= _minRange && Mathf.Abs(_rigidbody.velocity.y) <= _superJumpAllowable) // Super Jump
                         {
-                            Debug.Log("Super Jump");
-
-                            range = Mathf.Clamp(newVector.sqrMagnitude, _minRange, _maxRange);
+                            range = Mathf.Min(range, _maxRange);
 
                             SuperJump(normalized, range * _forceRatio);
                         }
@@ -186,15 +167,15 @@ namespace Runningboy.Entity
 
         #region Control
 
-        private readonly EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die | EntityStatus.Fall;
+        private readonly EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
         private readonly EntityStatus CanJump = EntityStatus.Idle | EntityStatus.Crouch;
 
-        private void Jump(Vector2 dir, float force)
+        private void AddForce(Vector2 dir, float force)
         {
             _spriteRenderer.flipX = dir.x < 0;
             _rigidbody.velocity = dir * Mathf.Sqrt(force);
 
-            SetStatus(EntityStatus.Jump);
+            SetStatus(EntityStatus.Idle);
         }
 
         private void SuperJump(Vector2 dir, float force)
@@ -205,41 +186,18 @@ namespace Runningboy.Entity
             SetStatus(EntityStatus.SuperJump);
         }
 
-        private void Slide(Vector2 dir, float force)
-        {
-            _spriteRenderer.flipX = dir.x < 0;
-            _rigidbody.velocity = dir * Mathf.Sqrt(force);
-
-            SetStatus(EntityStatus.Idle);
-        }
-
         #endregion
 
         private void RenderArrow(Vector3 vector)
         {
             _arrow.enabled = true;
 
-            float range = Mathf.Clamp(vector.sqrMagnitude, 0, _maxRange);
+            float range = Mathf.Clamp(Mathf.Sqrt(vector.sqrMagnitude), 0, _maxRange);
             Vector3 normalized = vector.normalized;
 
             _arrow.endColor = range >= _minRange ? Color.green : Color.red;
 
             _arrow.SetPosition(1, normalized * range);
-        }
-
-        private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
-        private IEnumerator CorrectionCoroutine()
-        {
-            Vector2 beforeVelocity = _rigidbody.velocity;
-            while (true)
-            {
-                yield return waitForFixedUpdate;
-                Vector2 afterVelocity = _rigidbody.velocity;
-                if (beforeVelocity == afterVelocity && (_status & CanJump) == 0)
-                {
-                    SetStatus(EntityStatus.Idle);
-                }
-            }
         }
 
         private void SetStatus(EntityStatus status)
@@ -250,13 +208,10 @@ namespace Runningboy.Entity
             switch (status)
             {
                 case EntityStatus.Idle:
-                    trigger = "Land";
+                    trigger = "Idle";
                     break;
                 case EntityStatus.Crouch:
                     trigger = "Crouch";
-                    break;
-                case EntityStatus.Fall:
-                    trigger = "Fall";
                     break;
                 case EntityStatus.Jump:
                     trigger = "Jump";
