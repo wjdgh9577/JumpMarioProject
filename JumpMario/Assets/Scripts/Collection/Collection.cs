@@ -12,6 +12,7 @@ namespace Runningboy.Collection
         Crouch = 4,
         Jump = 8,
         SuperJump = 16,
+        Fall = 32,
     }
 
     #endregion
