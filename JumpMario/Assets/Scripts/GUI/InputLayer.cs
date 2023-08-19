@@ -8,6 +8,11 @@ namespace Runningboy.GUI
 {
     public class InputLayer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        [SerializeField]
+        private RectTransform _touchPin;
+        [SerializeField]
+        private RectTransform _touchScroll;
+
         Camera mainCam;
 
         private void Start()
@@ -17,47 +22,44 @@ namespace Runningboy.GUI
 
         #region Drag Event
 
-        Vector3 startPos;
-        Vector3 currentPos;
-        bool isDrag = false;
+        Vector2 startScreenPosition;
+        Vector2 currentScreenPosition;
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            isDrag = true;
-            startPos = ScreenToWorldPoint(eventData.pointerCurrentRaycast.screenPosition);
-            GameManager.instance.OnBeginDrag(startPos);
+            startScreenPosition = eventData.pointerCurrentRaycast.screenPosition;
+            SetActivePin(true);
+            SetPinObjectPosition(_touchPin, startScreenPosition);
+            GameManager.instance.OnBeginDrag(this, startScreenPosition, startScreenPosition);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            currentPos = ScreenToWorldPoint(eventData.pointerCurrentRaycast.screenPosition);
-            GameManager.instance.OnDuringDrag(currentPos);
+            currentScreenPosition = eventData.pointerCurrentRaycast.screenPosition;
+            SetPinObjectPosition(_touchScroll, currentScreenPosition);
+            GameManager.instance.OnDuringDrag(this, startScreenPosition, currentScreenPosition);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            isDrag = false;
-            GameManager.instance.OnEndDrag(startPos - currentPos);
+            SetActivePin(false);
+            GameManager.instance.OnEndDrag(this, startScreenPosition, currentScreenPosition);
         }
 
-        private Vector3 ScreenToWorldPoint(in Vector2 screenPosition)
+        #endregion
+
+        #region Pin UI
+
+        private void SetActivePin(bool active)
         {
-            Vector3 screenPosition3 = new Vector3(screenPosition.x, screenPosition.y, 0);
-            Vector3 returnPosition = mainCam.ScreenToWorldPoint(screenPosition3);
-
-            return returnPosition;
+            _touchPin.gameObject.SetActive(active);
+            _touchScroll.gameObject.SetActive(active);
         }
 
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
+        private void SetPinObjectPosition(RectTransform obj, Vector3 position)
         {
-            if (isDrag)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(startPos, currentPos);
-            }
+            obj.position = position;
         }
-#endif
 
         #endregion
     }

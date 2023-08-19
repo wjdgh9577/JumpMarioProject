@@ -12,7 +12,7 @@ namespace Runningboy.Entity
     [RequireComponent(typeof(Collider2D))]
     public abstract class Entity : MonoBehaviour
     {
-        [Header("Components")]
+        [Header("Base Components")]
         [SerializeField]
         protected Rigidbody2D _rigidbody;
         [SerializeField]

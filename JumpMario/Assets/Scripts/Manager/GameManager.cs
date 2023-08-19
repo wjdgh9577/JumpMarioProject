@@ -15,26 +15,34 @@ namespace Runningboy.Manager
         public event EventHandler onDuringDrag;
         public event EventHandler onEndDrag;
 
-        BeginDragCallbackArgs beginDragCallbackArgs = new BeginDragCallbackArgs();
-        DuringDragCallbackArgs duringDragCallbackArgs = new DuringDragCallbackArgs();
-        EndDragCallbackArgs endDragCallbackArgs = new EndDragCallbackArgs();
+        readonly DragCallbackArgs dragCallbackArgs = new DragCallbackArgs();
 
-        public void OnBeginDrag(in Vector3 pos)
+        [Header("Drag")]
+        [SerializeField]
+        private bool reverse = false;
+
+        public void OnBeginDrag(in object sender, in Vector2 start, in Vector2 current)
         {
-            beginDragCallbackArgs.touchPos = pos;
-            onBeginDrag?.Invoke(this, beginDragCallbackArgs);
+            dragCallbackArgs.startScreenPosition = start;
+            dragCallbackArgs.currentScreenPosition = current;
+            dragCallbackArgs.reverse = reverse;
+            onBeginDrag?.Invoke(sender, dragCallbackArgs);
         }
 
-        public void OnDuringDrag(in Vector3 pos)
+        public void OnDuringDrag(in object sender, in Vector2 start, in Vector2 current)
         {
-            duringDragCallbackArgs.touchPos = pos;
-            onDuringDrag?.Invoke(this, duringDragCallbackArgs);
+            dragCallbackArgs.startScreenPosition = start;
+            dragCallbackArgs.currentScreenPosition = current;
+            dragCallbackArgs.reverse = reverse;
+            onDuringDrag?.Invoke(sender, dragCallbackArgs);
         }
 
-        public void OnEndDrag(in Vector3 dir)
+        public void OnEndDrag(in object sender, in Vector2 start, in Vector2 current)
         {
-            endDragCallbackArgs.dir = dir;
-            onEndDrag?.Invoke(this, endDragCallbackArgs);
+            dragCallbackArgs.startScreenPosition = start;
+            dragCallbackArgs.currentScreenPosition = current;
+            dragCallbackArgs.reverse = reverse;
+            onEndDrag?.Invoke(sender, dragCallbackArgs);
         }
 
         #endregion

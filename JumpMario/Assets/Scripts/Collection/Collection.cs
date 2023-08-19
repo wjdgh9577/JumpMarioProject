@@ -8,32 +8,21 @@ namespace Runningboy.Collection
     public enum EntityStatus
     {
         Idle = 1,
-        Jump = 2,
-        Die = 4,
+        Die = 2,
+        Crouch = 4,
+        Jump = 8,
+        SuperJump = 16,
     }
 
     #endregion
 
     #region CallbackArgs
 
-    public abstract class DragCallbackArgs : EventArgs
+    public class DragCallbackArgs : EventArgs
     {
-        public Vector3 touchPos;
-    }
-
-    public class BeginDragCallbackArgs : DragCallbackArgs
-    {
-
-    }
-
-    public class DuringDragCallbackArgs : DragCallbackArgs
-    {
-
-    }
-
-    public class EndDragCallbackArgs : DragCallbackArgs
-    {
-        public Vector3 dir;
+        public Vector2 startScreenPosition;
+        public Vector2 currentScreenPosition;
+        public bool reverse;
     }
 
     #endregion

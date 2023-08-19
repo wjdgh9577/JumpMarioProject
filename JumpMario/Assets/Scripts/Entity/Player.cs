@@ -8,8 +8,9 @@ namespace Runningboy.Entity
 {
     public class Player : Entity, IPlayable
     {
-        //[SerializeField]
-        //GameObject _arrow;
+        [Header("Components")]
+        [SerializeField]
+        LineRenderer _arrow;
 
         [Header("Control Values")]
         [SerializeField]
@@ -24,7 +25,7 @@ namespace Runningboy.Entity
         protected override void Reset()
         {
             base.Reset();
-            //_arrow = GetComponentInChildren<LineRenderer>().gameObject;
+            _arrow = GetComponent<LineRenderer>();
 
             _minRange = 0.1f;
             _maxRange = 5f;
@@ -65,33 +66,63 @@ namespace Runningboy.Entity
 
         #region Drag Event
 
-        public void OnBeginDrag(object sender, EventArgs callback)
+        private const EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
+
+        private void OnBeginDrag(object sender, EventArgs callback)
         {
-            if (callback is BeginDragCallbackArgs args)
+            if ((_status & CannotJump) != 0)
+                return;
+
+            if (callback is DragCallbackArgs args)
             {
-                SetTrigger("Crouch");
+                if ((_status & EntityStatus.Idle) != 0)
+                {
+                    SetTrigger("Crouch");
+                    _status = EntityStatus.Crouch;
+                }
             }
         }
 
-        public void OnDuringDrag(object sender, EventArgs callback)
+        private void OnDuringDrag(object sender, EventArgs callback)
         {
-            if (callback is DuringDragCallbackArgs args)
+            if ((_status & CannotJump) != 0)
+                return;
+
+            if (callback is DragCallbackArgs args)
             {
-                
+                if ((_status & EntityStatus.Idle) != 0)
+                {
+                    SetTrigger("Crouch");
+                    _status = EntityStatus.Crouch;
+                }
+
+                Vector3 start = GUIManager.instance.ScreenToWorldPoint(args.startScreenPosition);
+                Vector3 currnet = GUIManager.instance.ScreenToWorldPoint(args.currentScreenPosition);
+
+                RenderArrow(args.reverse ? currnet - start : start - currnet);
             }
         }
 
-        public void OnEndDrag(object sender, EventArgs callback)
+        private void OnEndDrag(object sender, EventArgs callback)
         {
-            if (callback is EndDragCallbackArgs args)
+            _arrow.enabled = false;
+
+            if ((_status & CannotJump) != 0)
+                return;
+
+            if (callback is DragCallbackArgs args)
             {
-                Vector2 newVector = args.dir;
+                Vector3 start = GUIManager.instance.ScreenToWorldPoint(args.startScreenPosition);
+                Vector3 currnet = GUIManager.instance.ScreenToWorldPoint(args.currentScreenPosition);
+
+                Vector2 newVector = args.reverse ? currnet - start : start - currnet;
                 Vector2 normalized = newVector.normalized;
                 float range = newVector.sqrMagnitude;
                 
                 if (range >= _minRange)
                 {
                     Debug.Log("Jump");
+
                     range = Mathf.Clamp(newVector.sqrMagnitude, _minRange, _maxRange);
 
                     Jump(normalized, range * _forceRatio);
@@ -99,9 +130,23 @@ namespace Runningboy.Entity
                 else
                 {
                     Debug.Log("Return to Idle");
+
                     SetTrigger("Cancel");
+                    _status = EntityStatus.Idle;
                 }
             }
+        }
+
+        private void RenderArrow(Vector3 vector)
+        {
+            _arrow.enabled = true;
+
+            float range = Mathf.Clamp(vector.sqrMagnitude, 0, _maxRange);
+            Vector3 normalized = vector.normalized;
+
+            _arrow.endColor = range >= _minRange ? Color.green : Color.red;
+            
+            _arrow.SetPosition(1, normalized * range);
         }
 
         #endregion
@@ -110,6 +155,7 @@ namespace Runningboy.Entity
         {
             _spriteRenderer.flipX = dir.x < 0;
             _rigidbody.velocity = dir * Mathf.Sqrt(force);
+
             SetTrigger("Jump");
             _status = EntityStatus.Jump;
         }
