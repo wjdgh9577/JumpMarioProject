@@ -13,24 +13,27 @@ namespace Runningboy.Entity
         LineRenderer _arrow;
 
         [Header("Control Values")]
+        [SerializeField, ReadOnly]
+        EntityStatus _status = EntityStatus.Idle;
         [SerializeField]
         float _minRange = 0.1f;
         [SerializeField]
         float _maxRange = 5f;
         [SerializeField]
         float _forceRatio = 100;
-        [SerializeField, ReadOnly]
-        EntityStatus _status = EntityStatus.Idle;
+        [SerializeField]
+        float _superJumpAllowable = 1f;
 
         protected override void Reset()
         {
             base.Reset();
             _arrow = GetComponent<LineRenderer>();
 
+            _status = EntityStatus.Idle;
             _minRange = 0.1f;
             _maxRange = 5f;
             _forceRatio = 100;
-            _status = EntityStatus.Idle;
+            _superJumpAllowable = 1f;
         }
 
         private void OnEnable()
@@ -65,14 +68,11 @@ namespace Runningboy.Entity
         }
 
         #region Drag Event
-
+        [SerializeField, EnumToggleButtons]
         private const EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
 
         private void OnBeginDrag(object sender, EventArgs callback)
         {
-            if ((_status & CannotJump) != 0)
-                return;
-
             if (callback is DragCallbackArgs args)
             {
                 if ((_status & EntityStatus.Idle) != 0)
@@ -85,9 +85,6 @@ namespace Runningboy.Entity
 
         private void OnDuringDrag(object sender, EventArgs callback)
         {
-            if ((_status & CannotJump) != 0)
-                return;
-
             if (callback is DragCallbackArgs args)
             {
                 if ((_status & EntityStatus.Idle) != 0)
@@ -119,20 +116,38 @@ namespace Runningboy.Entity
                 Vector2 normalized = newVector.normalized;
                 float range = newVector.sqrMagnitude;
                 
-                if (range >= _minRange)
+                switch (_status)
                 {
-                    Debug.Log("Jump");
+                    case EntityStatus.Idle:
+                    case EntityStatus.Crouch:
+                        if (range >= _minRange)
+                        {
+                            Debug.Log("Jump");
 
-                    range = Mathf.Clamp(newVector.sqrMagnitude, _minRange, _maxRange);
+                            range = Mathf.Clamp(newVector.sqrMagnitude, _minRange, _maxRange);
 
-                    Jump(normalized, range * _forceRatio);
-                }
-                else
-                {
-                    Debug.Log("Return to Idle");
+                            Jump(normalized, range * _forceRatio);
+                        }
+                        else
+                        {
+                            Debug.Log("Return to Idle");
 
-                    SetTrigger("Cancel");
-                    _status = EntityStatus.Idle;
+                            SetTrigger("Cancel");
+                            _status = EntityStatus.Idle;
+                        }
+                        break;
+                    case EntityStatus.Jump:
+                        if (range >= _minRange && Mathf.Abs(_rigidbody.velocity.y) <= _superJumpAllowable)
+                        {
+                            Debug.Log("Super Jump");
+
+                            range = Mathf.Clamp(newVector.sqrMagnitude, _minRange, _maxRange);
+
+                            SuperJump(normalized, range * _forceRatio);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -158,6 +173,15 @@ namespace Runningboy.Entity
 
             SetTrigger("Jump");
             _status = EntityStatus.Jump;
+        }
+
+        private void SuperJump(Vector2 dir, float force)
+        {
+            _spriteRenderer.flipX = dir.x < 0;
+            _rigidbody.velocity = dir * Mathf.Sqrt(force);
+
+            SetTrigger("SuperJump");
+            _status = EntityStatus.SuperJump;
         }
     }
 }
