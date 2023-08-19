@@ -143,6 +143,7 @@ namespace Runningboy.Entity
                             range = Mathf.Min(range, _maxRange);
 
                             AddForce(normalized, range * _forceRatio);
+                            SetStatus(EntityStatus.Idle);
                         }
                         else // Cancel
                         {
@@ -154,7 +155,8 @@ namespace Runningboy.Entity
                         {
                             range = Mathf.Min(range, _maxRange);
 
-                            SuperJump(normalized, range * _forceRatio);
+                            AddForce(normalized, range * _forceRatio);
+                            SetStatus(EntityStatus.SuperJump);
                         }
                         break;
                     default:
@@ -165,8 +167,6 @@ namespace Runningboy.Entity
 
         #endregion
 
-        #region Control
-
         private readonly EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
         private readonly EntityStatus CanJump = EntityStatus.Idle | EntityStatus.Crouch;
 
@@ -174,19 +174,7 @@ namespace Runningboy.Entity
         {
             _spriteRenderer.flipX = dir.x < 0;
             _rigidbody.velocity = dir * Mathf.Sqrt(force);
-
-            SetStatus(EntityStatus.Idle);
         }
-
-        private void SuperJump(Vector2 dir, float force)
-        {
-            _spriteRenderer.flipX = dir.x < 0;
-            _rigidbody.velocity = dir * Mathf.Sqrt(force);
-
-            SetStatus(EntityStatus.SuperJump);
-        }
-
-        #endregion
 
         private void RenderArrow(Vector3 vector)
         {
