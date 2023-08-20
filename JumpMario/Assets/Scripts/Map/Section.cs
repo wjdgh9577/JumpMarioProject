@@ -20,7 +20,6 @@ public class Section : MonoBehaviour
         {
             case "Player":
                 GameManager.instance.RegistNextSection(this);
-                Debug.Log($"{this} Enter");
                 break;
             default:
                 break;
@@ -33,10 +32,14 @@ public class Section : MonoBehaviour
         {
             case "Player":
                 GameManager.instance.ChangeSection(this);
-                Debug.Log($"{this} Exit");
                 break;
             default:
                 break;
         }
+    }
+
+    public void SetActiveTileMap(bool active)
+    {
+        _tileMapGrid.SetActive(active);
     }
 }

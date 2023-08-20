@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Runningboy.Utility;
 using Runningboy.Collection;
@@ -49,11 +50,8 @@ namespace Runningboy.Manager
 
         #region Section
 
-        [Header("Section")]
-        [SerializeField, ReadOnly]
-        private Section currentSection;
-        [SerializeField, ReadOnly]
-        private Section nextSection;
+        private List<Section> sections = new List<Section>();
+        private Section spareSection = null;
 
         private CinemachineConfiner2D _confiner2D;
         public CinemachineConfiner2D confiner2D
@@ -75,30 +73,32 @@ namespace Runningboy.Manager
 
         public void RegistNextSection(Section section)
         {
-            if (section == null)
+            if (!sections.Contains(section))
             {
-                Debug.LogError("The next section is null.");
-                return;
-            }
-            else if (currentSection == null) // For test
-            {
-                currentSection = section;
+                sections.Add(section);
+                section.SetActiveTileMap(true);
             }
 
-            nextSection = section;
+            if (sections.Count == 1 || spareSection != null)
+            {
+                confiner2D.m_BoundingShape2D = section.polygonCollider2D;
+                spareSection?.SetActiveTileMap(false);
+                spareSection = null;
+            }
         }
 
         public void ChangeSection(Section previousSection)
         {
-            if (previousSection == null || previousSection != currentSection)
-                return;
+            sections.Remove(previousSection);
 
-            currentSection = nextSection;
-            nextSection = null;
-
-            if (currentSection != null)
+            if (sections.Count > 0)
             {
-                confiner2D.m_BoundingShape2D = currentSection.GetComponent<Collider2D>();
+                previousSection.SetActiveTileMap(false);
+                confiner2D.m_BoundingShape2D = sections[0].polygonCollider2D;
+            }
+            else
+            {
+                spareSection = previousSection;
             }
         }
 
