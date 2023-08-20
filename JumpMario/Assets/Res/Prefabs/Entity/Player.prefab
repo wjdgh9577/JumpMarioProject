@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6991820139358874639}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,10 +54,11 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 3889599215116692626}
   _animator: {fileID: 3458256423667807749}
   _arrow: {fileID: 6991820139358874639}
+  _status: 1
   _minRange: 0.1
   _maxRange: 5
   _forceRatio: 100
-  _status: 1
+  _superJumpAllowable: 1
 --- !u!212 &3889599215116692626
 SpriteRenderer:
   m_ObjectHideFlags: 0

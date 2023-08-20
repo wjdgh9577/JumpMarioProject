@@ -13,13 +13,6 @@ namespace Runningboy.GUI
         [SerializeField]
         private RectTransform _touchScroll;
 
-        Camera mainCam;
-
-        private void Start()
-        {
-            mainCam = Camera.main;
-        }
-
         #region Drag Event
 
         Vector2 startScreenPosition;
