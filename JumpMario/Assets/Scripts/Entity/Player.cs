@@ -57,35 +57,27 @@ namespace Runningboy.Entity
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            switch (collision.gameObject.tag)
+            if (collision.gameObject.CompareTag("Ground"))
             {
-                case "Ground":
-                    foreach (var contact in  collision.contacts)
-                    {
-                        if (contact.normal.y > 0)
-                            goto _loop;
-                    }
-                    break;
-                _loop:
-                    SetStatus(EntityStatus.Idle);
-                    break;
-                default:
-                    break;
+                foreach (var contact in collision.contacts)
+                {
+                    if (contact.normal.y > 0)
+                        goto _loop;
+                }
+                return;
+            _loop:
+                SetStatus(EntityStatus.Idle);
             }
         }
 
         private void OnCollisionExit2D(Collision2D collision)
         {
-            switch (collision.gameObject.tag)
+            if (collision.gameObject.CompareTag("Ground"))
             {
-                case "Ground":
-                    if ((_status & CanJump) != 0)
-                    {
-                        SetStatus(EntityStatus.Jump);
-                    }
-                    break;
-                default:
-                    break;
+                if ((_status & CanJump) != 0)
+                {
+                    SetStatus(EntityStatus.Jump);
+                }
             }
         }
 

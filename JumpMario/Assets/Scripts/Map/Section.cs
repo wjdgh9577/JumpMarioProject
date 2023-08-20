@@ -16,25 +16,17 @@ public class Section : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch (collision.tag)
+        if (collision.CompareTag("Player"))
         {
-            case "Player":
-                GameManager.instance.RegistNextSection(this);
-                break;
-            default:
-                break;
+            GameManager.instance.RegistNextSection(this);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        switch (collision.tag)
+        if (collision.CompareTag("Player"))
         {
-            case "Player":
-                GameManager.instance.ChangeSection(this);
-                break;
-            default:
-                break;
+            GameManager.instance.ChangeSection(this);
         }
     }
 
