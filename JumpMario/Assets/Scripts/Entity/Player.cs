@@ -45,6 +45,8 @@ namespace Runningboy.Entity
             instance.onEndDrag += OnEndDrag;
 
             tag = "Player";
+            correctCoroutine = CorrectCoroutine();
+            Correct();
         }
 
         private void OnDisable()
@@ -166,6 +168,29 @@ namespace Runningboy.Entity
         }
 
         #endregion
+
+        private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+        private IEnumerator correctCoroutine;
+
+        public void Correct()
+        {
+            StopCoroutine(correctCoroutine);
+            StartCoroutine(correctCoroutine);
+        }
+
+        private IEnumerator CorrectCoroutine()
+        {
+            Vector2 beforeVelocity = _rigidbody.velocity;
+            while (true)
+            {
+                yield return waitForFixedUpdate;
+                Vector2 afterVelocity = _rigidbody.velocity;
+                if (beforeVelocity == afterVelocity && (_status & CanJump) == 0)
+                {
+                    SetStatus(EntityStatus.Idle);
+                }
+            }
+        }
 
         private readonly EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
         private readonly EntityStatus CanJump = EntityStatus.Idle | EntityStatus.Crouch;
