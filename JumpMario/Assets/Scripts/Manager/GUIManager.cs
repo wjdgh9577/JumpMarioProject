@@ -11,6 +11,7 @@ namespace Runningboy.Manager
     public class GUIManager : Singleton<GUIManager>
     {
         public InputLayer inputLayer;
+        public MainMenu mainMenu;
 
         private Camera mainCamera;
 

@@ -22,6 +22,9 @@ namespace Runningboy.Utility
 
         protected bool destroyed = false;
 
+        [Header("Base Singleton")]
+        public bool dontDestroyOnLoad = true;
+
         protected virtual void Awake()
         {
             if (destroyed)
@@ -41,12 +44,25 @@ namespace Runningboy.Utility
             }
         }
 
-        private static void SetInstance(T ins)
+        private void OnDestroy()
         {
-            _instance = ins;
+            if (destroyed)
+                return;
+
+            _instance = null;
+            Debug.Log(gameObject);
+        }
+
+        private static void SetInstance(T inst)
+        {
+            _instance = inst;
             instantiated = true;
-            (ins as Singleton<T>).destroyed = false;
-            DontDestroyOnLoad(ins);
+            if (inst is Singleton<T> ins)
+            {
+                ins.destroyed = false;
+                if (ins.dontDestroyOnLoad)
+                    DontDestroyOnLoad(ins);
+            }
         }
 
         private static void GetInstance()

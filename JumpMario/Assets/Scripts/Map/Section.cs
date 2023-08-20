@@ -4,34 +4,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PolygonCollider2D))]
-public class Section : MonoBehaviour
+namespace Runningboy.Map
 {
-    public PolygonCollider2D polygonCollider2D;
-
-    [SerializeField]
-    GameObject _tileMapGrid;
-    [SerializeField]
-    GameObject _checkPoint;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    [RequireComponent(typeof(PolygonCollider2D))]
+    public class Section : MonoBehaviour
     {
-        if (collision.CompareTag("Player"))
+        [Header("Components")]
+        public PolygonCollider2D polygonCollider2D;
+
+        [Header("")]
+        public int sectorNumber;
+        public int sectionNumber;
+
+        [SerializeField]
+        GameObject _tileMapGrid;
+        [SerializeField]
+        GameObject _checkPoint;
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            GameManager.instance.RegistNextSection(this);
+            if (collision.CompareTag("Player"))
+            {
+                MapManager.instance.RegistNextSection(this);
+            }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            GameManager.instance.ChangeSection(this);
+            if (collision.CompareTag("Player"))
+            {
+                MapManager.instance.ChangeSection(this);
+            }
         }
-    }
 
-    public void SetActiveTileMap(bool active)
-    {
-        _tileMapGrid.SetActive(active);
+        public void SetActiveTileMap(bool active)
+        {
+            _tileMapGrid.SetActive(active);
+        }
     }
 }
