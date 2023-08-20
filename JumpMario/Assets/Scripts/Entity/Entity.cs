@@ -1,9 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Runningboy.Entity
 {
+    public enum EntityStatus
+    {
+        Idle = 1,
+        Die = 2,
+        Crouch = 4,
+        Jump = 8,
+        SuperJump = 16,
+    }
+
     /// <summary>
     /// 플레이어, 몬스터 공용
     /// 움직임 제어
@@ -12,6 +22,9 @@ namespace Runningboy.Entity
     [RequireComponent(typeof(Collider2D))]
     public abstract class Entity : MonoBehaviour
     {
+        [SerializeField, ReadOnly]
+        protected EntityStatus _status = EntityStatus.Idle;
+
         [Header("Base Components")]
         [SerializeField]
         protected Rigidbody2D _rigidbody;
@@ -50,5 +63,48 @@ namespace Runningboy.Entity
         }
 
         #endregion
+
+        #region Status
+
+        protected readonly EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
+        protected readonly EntityStatus CanJump = EntityStatus.Idle | EntityStatus.Crouch;
+
+        protected void SetStatus(EntityStatus status)
+        {
+            _status = status;
+
+            string trigger;
+            switch (status)
+            {
+                case EntityStatus.Idle:
+                    trigger = "Idle";
+                    break;
+                case EntityStatus.Crouch:
+                    trigger = "Crouch";
+                    break;
+                case EntityStatus.Jump:
+                    trigger = "Jump";
+                    break;
+                case EntityStatus.SuperJump:
+                    trigger = "SuperJump";
+                    break;
+                case EntityStatus.Die:
+                    trigger = "Die";
+                    break;
+                default:
+                    trigger = "Default";
+                    break;
+            }
+
+            SetTrigger(trigger);
+        }
+
+        #endregion
+
+        protected void AddForce(Vector2 dir, float force)
+        {
+            _spriteRenderer.flipX = dir.x < 0;
+            _rigidbody.velocity = dir * Mathf.Sqrt(force);
+        }
     }
 }

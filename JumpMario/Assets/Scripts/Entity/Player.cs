@@ -14,8 +14,6 @@ namespace Runningboy.Entity
         LineRenderer _arrow;
 
         [Header("Control Values")]
-        [SerializeField, ReadOnly]
-        EntityStatus _status = EntityStatus.Idle;
         [SerializeField]
         float _minRange = 0.1f;
         [SerializeField]
@@ -169,6 +167,8 @@ namespace Runningboy.Entity
 
         #endregion
 
+        #region Correction
+
         private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
         private IEnumerator correctCoroutine;
 
@@ -192,14 +192,7 @@ namespace Runningboy.Entity
             }
         }
 
-        private readonly EntityStatus CannotJump = EntityStatus.SuperJump | EntityStatus.Die;
-        private readonly EntityStatus CanJump = EntityStatus.Idle | EntityStatus.Crouch;
-
-        private void AddForce(Vector2 dir, float force)
-        {
-            _spriteRenderer.flipX = dir.x < 0;
-            _rigidbody.velocity = dir * Mathf.Sqrt(force);
-        }
+        #endregion
 
         private void RenderArrow(Vector3 vector)
         {
@@ -211,36 +204,6 @@ namespace Runningboy.Entity
             _arrow.endColor = range >= _minRange ? Color.green : Color.red;
 
             _arrow.SetPosition(1, normalized * range);
-        }
-
-        private void SetStatus(EntityStatus status)
-        {
-            _status = status;
-
-            string trigger;
-            switch (status)
-            {
-                case EntityStatus.Idle:
-                    trigger = "Idle";
-                    break;
-                case EntityStatus.Crouch:
-                    trigger = "Crouch";
-                    break;
-                case EntityStatus.Jump:
-                    trigger = "Jump";
-                    break;
-                case EntityStatus.SuperJump:
-                    trigger = "SuperJump";
-                    break;
-                case EntityStatus.Die:
-                    trigger = "Die";
-                    break;
-                default:
-                    trigger = "Default";
-                    break;
-            }
-
-            SetTrigger(trigger);
         }
     }
 }

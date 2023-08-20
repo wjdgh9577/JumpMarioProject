@@ -5,14 +5,7 @@ namespace Runningboy.Collection
 {
     #region Enums
 
-    public enum EntityStatus
-    {
-        Idle = 1,
-        Die = 2,
-        Crouch = 4,
-        Jump = 8,
-        SuperJump = 16,
-    }
+    
 
     #endregion
 
