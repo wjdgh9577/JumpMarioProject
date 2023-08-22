@@ -3,12 +3,6 @@ using UnityEngine;
 
 namespace Runningboy.Collection
 {
-    #region Enums
-
-    
-
-    #endregion
-
     #region CallbackArgs
 
     public class DragCallbackArgs : EventArgs

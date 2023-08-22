@@ -11,15 +11,14 @@ namespace Runningboy.Map
     {
         [Header("Components")]
         public PolygonCollider2D polygonCollider2D;
-
-        [Header("")]
-        public int sectorNumber;
-        public int sectionNumber;
-
         [SerializeField]
         GameObject _tileMapGrid;
         [SerializeField]
         GameObject _checkPoint;
+
+        [Header("Sector/Section Data")]
+        public int sectorNumber;
+        public int sectionNumber;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Runningboy.Utility;
 using Runningboy.GUI;
-using UnityEngine.UI;
-using Sirenix.OdinInspector;
 
-namespace Runningboy.Manager
+namespace Runningboy.Module
 {
-    public class GUIManager : Singleton<GUIManager>
+    public class GUIModule : MonoBehaviour
     {
         public InputLayer inputLayer;
         public MainMenu mainMenu;

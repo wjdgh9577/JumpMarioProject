@@ -23,20 +23,20 @@ namespace Runningboy.GUI
             startScreenPosition = eventData.pointerCurrentRaycast.screenPosition;
             SetActivePin(true);
             SetPinObjectPosition(_touchPin, startScreenPosition);
-            GameManager.instance.OnBeginDrag(this, startScreenPosition, startScreenPosition);
+            GameManager.instance.IOModule.OnBeginDrag(this, startScreenPosition, startScreenPosition);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             currentScreenPosition = eventData.pointerCurrentRaycast.screenPosition;
             SetPinObjectPosition(_touchScroll, currentScreenPosition);
-            GameManager.instance.OnDuringDrag(this, startScreenPosition, currentScreenPosition);
+            GameManager.instance.IOModule.OnDuringDrag(this, startScreenPosition, currentScreenPosition);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             SetActivePin(false);
-            GameManager.instance.OnEndDrag(this, startScreenPosition, currentScreenPosition);
+            GameManager.instance.IOModule.OnEndDrag(this, startScreenPosition, currentScreenPosition);
         }
 
         #endregion

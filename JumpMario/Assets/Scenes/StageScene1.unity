@@ -698,7 +698,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1157,6 +1157,8 @@ MonoBehaviour:
   polygonCollider2D: {fileID: 769388421}
   _tileMapGrid: {fileID: 1120042431}
   _checkPoint: {fileID: 2114507157}
+  sectorNumber: 0
+  sectionNumber: 1
 --- !u!1 &901502209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3969,67 +3971,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!1001 &1234084002
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940175517399949852, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419850869499735767, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a38e81a37fef2014d93534991d2a369c, type: 3}
 --- !u!1 &1389516846
 GameObject:
   m_ObjectHideFlags: 0
@@ -4128,6 +4069,8 @@ MonoBehaviour:
   polygonCollider2D: {fileID: 1389516848}
   _tileMapGrid: {fileID: 1012343275}
   _checkPoint: {fileID: 617844848}
+  sectorNumber: 0
+  sectionNumber: 4
 --- !u!1 &1398878959
 GameObject:
   m_ObjectHideFlags: 3
@@ -7809,6 +7752,8 @@ MonoBehaviour:
   polygonCollider2D: {fileID: 1850713210}
   _tileMapGrid: {fileID: 391478448}
   _checkPoint: {fileID: 1117138934}
+  sectorNumber: 0
+  sectionNumber: 2
 --- !u!1 &2114507157
 GameObject:
   m_ObjectHideFlags: 0
@@ -8210,7 +8155,7 @@ Transform:
   - {fileID: 1850713209}
   - {fileID: 1389516847}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1377784180689020240
 MonoBehaviour:
@@ -10762,7 +10707,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5749018909818468549, guid: fd8c744dc74b40f4fb69e4ff493ef83c, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5749018909818468549, guid: fd8c744dc74b40f4fb69e4ff493ef83c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11026,6 +10971,8 @@ MonoBehaviour:
   polygonCollider2D: {fileID: 7284192850981661505}
   _tileMapGrid: {fileID: 3828773653698396222}
   _checkPoint: {fileID: 551924566}
+  sectorNumber: 0
+  sectionNumber: 0
 --- !u!1001 &7312395954576139927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11044,7 +10991,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 644524312430080920, guid: ae8e8b94a9ae5f0488566973f193fb2f, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 644524312430080920, guid: ae8e8b94a9ae5f0488566973f193fb2f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11120,7 +11067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 775721444487307740, guid: ae8e8b94a9ae5f0488566973f193fb2f, type: 3}
       propertyPath: m_Name
-      value: GUI
+      value: GameManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

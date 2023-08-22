@@ -38,9 +38,9 @@ namespace Runningboy.Entity
         private void OnEnable()
         {
             GameManager instance = GameManager.instance;
-            instance.onBeginDrag += OnBeginDrag;
-            instance.onDuringDrag += OnDuringDrag;
-            instance.onEndDrag += OnEndDrag;
+            instance.IOModule.onBeginDrag += OnBeginDrag;
+            instance.IOModule.onDuringDrag += OnDuringDrag;
+            instance.IOModule.onEndDrag += OnEndDrag;
 
             tag = "Player";
             correctCoroutine = CorrectCoroutine();
@@ -50,9 +50,9 @@ namespace Runningboy.Entity
         private void OnDisable()
         {
             GameManager instance = GameManager.instance;
-            instance.onBeginDrag -= OnBeginDrag;
-            instance.onDuringDrag -= OnDuringDrag;
-            instance.onEndDrag -= OnEndDrag;
+            instance.IOModule.onBeginDrag -= OnBeginDrag;
+            instance.IOModule.onDuringDrag -= OnDuringDrag;
+            instance.IOModule.onEndDrag -= OnEndDrag;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -103,8 +103,8 @@ namespace Runningboy.Entity
                     SetStatus(EntityStatus.Crouch);
                 }
 
-                Vector3 start = GUIManager.instance.ScreenToWorldPoint(args.startScreenPosition);
-                Vector3 currnet = GUIManager.instance.ScreenToWorldPoint(args.currentScreenPosition);
+                Vector3 start = GameManager.instance.GUIModule.ScreenToWorldPoint(args.startScreenPosition);
+                Vector3 currnet = GameManager.instance.GUIModule.ScreenToWorldPoint(args.currentScreenPosition);
 
                 RenderArrow(args.reverse ? currnet - start : start - currnet);
             }
@@ -119,8 +119,8 @@ namespace Runningboy.Entity
 
             if (callback is DragCallbackArgs args)
             {
-                Vector3 start = GUIManager.instance.ScreenToWorldPoint(args.startScreenPosition);
-                Vector3 currnet = GUIManager.instance.ScreenToWorldPoint(args.currentScreenPosition);
+                Vector3 start = GameManager.instance.GUIModule.ScreenToWorldPoint(args.startScreenPosition);
+                Vector3 currnet = GameManager.instance.GUIModule.ScreenToWorldPoint(args.currentScreenPosition);
 
                 Vector2 newVector = args.reverse ? currnet - start : start - currnet;
                 Vector2 normalized = newVector.normalized;

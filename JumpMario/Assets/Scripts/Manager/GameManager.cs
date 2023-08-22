@@ -1,58 +1,28 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Runningboy.Utility;
-using Runningboy.Collection;
-using Cinemachine;
+using Runningboy.Module;
 using Sirenix.OdinInspector;
 
 namespace Runningboy.Manager
 {
     public class GameManager : Singleton<GameManager>
     {
-        #region Drag Event
-
-        public event EventHandler onBeginDrag;
-        public event EventHandler onDuringDrag;
-        public event EventHandler onEndDrag;
-
-        readonly DragCallbackArgs dragCallbackArgs = new DragCallbackArgs();
-
-        [Header("Drag Event")]
         [SerializeField]
-        private bool _reverse = false;
+        GUIModule _guiModule;
+        [SerializeField]
+        IOModule _ioModule;
+        [SerializeField]
+        SceneModule _sceneModule;
 
-        public void OnBeginDrag(in object sender, in Vector2 start, in Vector2 current)
+        public GUIModule GUIModule { get { return _guiModule; } }
+        public IOModule IOModule { get { return _ioModule; } }
+        public SceneModule SceneModule { get { return _sceneModule; } }
+
+        private void Reset()
         {
-            dragCallbackArgs.startScreenPosition = start;
-            dragCallbackArgs.currentScreenPosition = current;
-            dragCallbackArgs.reverse = _reverse;
-            onBeginDrag?.Invoke(sender, dragCallbackArgs);
+            _guiModule = GetComponent<GUIModule>();
+            _ioModule = GetComponent<IOModule>();
+            _sceneModule = GetComponent<SceneModule>();
         }
-
-        public void OnDuringDrag(in object sender, in Vector2 start, in Vector2 current)
-        {
-            dragCallbackArgs.startScreenPosition = start;
-            dragCallbackArgs.currentScreenPosition = current;
-            dragCallbackArgs.reverse = _reverse;
-            onDuringDrag?.Invoke(sender, dragCallbackArgs);
-        }
-
-        public void OnEndDrag(in object sender, in Vector2 start, in Vector2 current)
-        {
-            dragCallbackArgs.startScreenPosition = start;
-            dragCallbackArgs.currentScreenPosition = current;
-            dragCallbackArgs.reverse = _reverse;
-            onEndDrag?.Invoke(sender, dragCallbackArgs);
-        }
-
-        #endregion
-
-        #region Scene Load
-
-
-
-
-        #endregion
     }
 }
