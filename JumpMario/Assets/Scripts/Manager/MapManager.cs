@@ -11,8 +11,6 @@ namespace Runningboy.Manager
 {
     public class MapManager : Singleton<MapManager>
     {
-        #region Section
-
         // TODO: 메인 메뉴를 통한 스테이지 진입 구현 후 다시 수정 필요. 혹은 맵을 벗어나는 경우가 없도록 레벨 디자인에 신경써야 됨.
         private List<Section> sections = new List<Section>();
         private Section spareSection = null;
@@ -32,6 +30,15 @@ namespace Runningboy.Manager
             set
             {
                 _confiner2D = value;
+            }
+        }
+
+        private void Start()
+        {
+            var sections = GetComponentsInChildren<Section>();
+            foreach (var section in sections)
+            {
+                section.Init();
             }
         }
 
@@ -65,7 +72,5 @@ namespace Runningboy.Manager
                 spareSection = previousSection;
             }
         }
-
-        #endregion
     }
 }
