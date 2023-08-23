@@ -4,7 +4,7 @@ using Runningboy.Collection;
 
 namespace Runningboy.Module
 {
-    public class IOModule : MonoBehaviour
+    public sealed class IOModule : MonoBehaviour
     {
         public event EventHandler onBeginDrag;
         public event EventHandler onDuringDrag;

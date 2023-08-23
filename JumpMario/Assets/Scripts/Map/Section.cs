@@ -12,9 +12,15 @@ namespace Runningboy.Map
     public struct SectionData
     {
         [HorizontalGroup("")]
-        public int sectorNumber;
+        public byte sectorNumber;
         [HorizontalGroup("")]
-        public int sectionNumber;
+        public byte sectionNumber;
+
+        public SectionData(byte sector, byte section)
+        {
+            sectorNumber = sector;
+            sectionNumber = section;
+        }
     }
 
     public class Section : MonoBehaviour
@@ -47,33 +53,33 @@ namespace Runningboy.Map
             }
         }
 
-        public void Init()
+        public SectionData? Init()
         {
             var data =  gameObject.name.Split('_');
 
             if (data.Length != 2 )
             {
                 Debug.LogError($"Invalid section object name: {gameObject.name}");
-                return;
+                return null;
             }
 
-            if (int.TryParse(data[0], out int sector))
+            if (byte.TryParse(data[0], out byte sector))
             {
                 sectionData.sectorNumber = sector;
             }
             else
             {
                 Debug.LogError($"Invalid section object name: {gameObject.name}");
-                return;
+                return null;
             }
-            if (int.TryParse(data[1], out int section))
+            if (byte.TryParse(data[1], out byte section))
             {
                 sectionData.sectionNumber = section;
             }
             else
             {
                 Debug.LogError($"Invalid section object name: {gameObject.name}");
-                return;
+                return null;
             }
 
             Vector2 size = _marker.bounds.size;
@@ -87,11 +93,18 @@ namespace Runningboy.Map
                 new Vector2(size.x / 2, -size.y / 2)
             });
             polygonCollider2D.offset = _marker.transform.localPosition;
+
+            return sectionData;
         }
 
         public void SetActiveTileMap(bool active)
         {
             _tileMapGrid.SetActive(active);
+        }
+
+        public void ReturnToCheckPoint(Transform tm)
+        {
+            tm.position = _checkPoint.transform.position;
         }
     }
 }

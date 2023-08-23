@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runningboy.Module
 {
-    public class SceneModule : MonoBehaviour
+    public sealed class SceneModule : MonoBehaviour
     {
 
     }

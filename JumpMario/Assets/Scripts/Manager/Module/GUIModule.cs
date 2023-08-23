@@ -3,16 +3,40 @@ using Runningboy.GUI;
 
 namespace Runningboy.Module
 {
-    public class GUIModule : MonoBehaviour
+    public sealed class GUIModule : MonoBehaviour
     {
-        public InputLayer inputLayer;
-        public MainMenu mainMenu;
+        [SerializeField]
+        InputLayer _inputLayer;
+        [SerializeField]
+        LobbyPanel _lobbyPanel;
+        [SerializeField]
+        MainPanel _mainPanel;
+        [SerializeField]
+        MenuPanel _menuPanel;
+        [SerializeField]
+        WorldMapPanel _worldMapPanel;
 
-        private Camera mainCamera;
+        public InputLayer inputLayer { get { return _inputLayer; } }
+        public LobbyPanel lobbyPanel { get { return _lobbyPanel; } }
+        public MainPanel mainPanel { get { return _mainPanel; } }
+        public MenuPanel menuPanel { get { return _menuPanel; } }
+        public WorldMapPanel worldMapPanel { get { return _worldMapPanel; } }
 
-        private void Start()
+        private Camera _mainCamera;
+        public Camera mainCamera
         {
-            mainCamera = Camera.main;
+            get
+            {
+                if (_mainCamera == null)
+                {
+                    _mainCamera = Camera.main;
+                }
+                return _mainCamera;
+            }
+            private set
+            {
+                _mainCamera = value;
+            }
         }
 
         public Vector3 ScreenToWorldPoint(in Vector2 screenPoint)

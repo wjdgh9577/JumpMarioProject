@@ -2,16 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Runningboy.Manager;
 using Runningboy.Utility;
 using Runningboy.Map;
 using Cinemachine;
+using Sirenix.OdinInspector;
 
 namespace Runningboy.Manager
 {
     public class MapManager : Singleton<MapManager>
     {
+        [SerializeField]
+        GameObject player;
+
         // TODO: 메인 메뉴를 통한 스테이지 진입 구현 후 다시 수정 필요. 혹은 맵을 벗어나는 경우가 없도록 레벨 디자인에 신경써야 됨.
+        private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
         private List<Section> sections = new List<Section>();
         private Section spareSection = null;
 
@@ -38,7 +42,11 @@ namespace Runningboy.Manager
             var sections = GetComponentsInChildren<Section>();
             foreach (var section in sections)
             {
-                section.Init();
+                var data = section.Init();
+                if (data != null)
+                {
+                    sectionDic.Add(data.Value, section);
+                }
             }
         }
 
@@ -71,6 +79,33 @@ namespace Runningboy.Manager
             {
                 spareSection = previousSection;
             }
+        }
+
+        [Button]
+        public bool SetMap(byte sectorNum, byte sectionNum)
+        {
+            SectionData key = new SectionData(sectorNum, sectionNum);
+
+            if (sectionDic.TryGetValue(key, out Section section))
+            {
+                player.SetActive(false);
+                
+                section.ReturnToCheckPoint(player.transform);
+                
+                foreach (var _section in sections)
+                {
+                    _section.SetActiveTileMap(false);
+                }
+                sections.Clear();
+                spareSection?.SetActiveTileMap(false);
+                spareSection = null;
+
+                player.SetActive(true);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

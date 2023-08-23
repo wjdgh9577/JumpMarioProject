@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Runningboy.Manager;
+using Runningboy.Utility;
 
 namespace Runningboy.GUI
 {
-    public class InputLayer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class InputLayer : PanelBase, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField]
         private RectTransform _touchPin;
