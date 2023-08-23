@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea1fd3110c4cb9409e708d151e2373e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomText: {fileID: 6712725961443825957}
+  _sectionText: {fileID: 6712725961443825957}
 --- !u!222 &7985397183035033392
 CanvasRenderer:
   m_ObjectHideFlags: 0

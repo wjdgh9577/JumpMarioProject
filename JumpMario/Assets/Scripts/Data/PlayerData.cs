@@ -11,6 +11,8 @@ namespace Runningboy.Data
 
         public SectionData lastCheckPoint;
 
+        public HashSet<SectionData> visitSections = new HashSet<SectionData>();
+
         #region Save/Load
 
         public void SaveData()

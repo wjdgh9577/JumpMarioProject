@@ -1,4 +1,5 @@
 using Runningboy.Manager;
+using Runningboy.Map;
 using Runningboy.Utility;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Runningboy.GUI
     public class MainPanel : PanelBase
     {
         [SerializeField]
-        Text _roomText;
+        Text _sectionText;
 
         #region Button Events
 
@@ -25,5 +26,10 @@ namespace Runningboy.GUI
         }
 
         #endregion
+
+        public void SetSectionText(SectionData sectionData)
+        {
+            _sectionText.text = sectionData.ToString();
+        }
     }
 }

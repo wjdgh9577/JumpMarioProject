@@ -6,6 +6,7 @@ using Runningboy.Utility;
 using Runningboy.Map;
 using Cinemachine;
 using Sirenix.OdinInspector;
+using Runningboy.Data;
 
 namespace Runningboy.Manager
 {
@@ -43,16 +44,19 @@ namespace Runningboy.Manager
 
         private void UpdateSection(Section section)
         {
+            PlayerData.Instance.visitSections.Add(section.sectionData);
+
             sections.Add(section);
-            section.SetActiveTileMap(true);
+            section.SetActiveSection(true);
 
             GameManager.instance.GUIModule.confiner2D.m_BoundingShape2D = section.polygonCollider2D;
+            GameManager.instance.GUIModule.mainPanel.SetSectionText(section.sectionData);
         }
 
         private void ClearSections()
         {
             foreach (var section in sections)
-                section.SetActiveTileMap(false);
+                section.SetActiveSection(false);
             sections.Clear();
         }
 

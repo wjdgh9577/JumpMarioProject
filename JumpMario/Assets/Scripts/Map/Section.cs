@@ -1,5 +1,6 @@
 using Runningboy.Collection;
 using Runningboy.Manager;
+using Runningboy.Data;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -20,6 +21,11 @@ namespace Runningboy.Map
         {
             sectorNumber = sector;
             sectionNumber = section;
+        }
+
+        public override string ToString()
+        {
+            return $"{sectorNumber} - {sectionNumber}";
         }
     }
 
@@ -86,14 +92,27 @@ namespace Runningboy.Map
             });
             polygonCollider2D.offset = _marker.transform.localPosition;
 
-            SetActiveTileMap(false);
+            SetActiveSection(false);
 
             return sectionData;
         }
 
-        public void SetActiveTileMap(bool active)
+        public void SetActiveSection(bool active)
+        {
+
+            SetActiveTileMap(active);
+            SetActiveMarker(active);
+        }
+
+        private void SetActiveTileMap(bool active)
         {
             _tileMapGrid.SetActive(active);
+        }
+
+        private void SetActiveMarker(bool active)
+        {
+            _marker.gameObject.SetActive(PlayerData.Instance.visitSections.Contains(sectionData));
+            _marker.color = active ? Color.yellow : Color.white;
         }
 
         public void SetPlayerToCheckPoint(Transform tm)
