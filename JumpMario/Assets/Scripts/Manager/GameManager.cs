@@ -15,8 +15,6 @@ namespace Runningboy.Manager
         IOModule _ioModule;
         [SerializeField]
         SceneModule _sceneModule;
-        [SerializeField]
-        PlayerData _playerData;
 
         public GUIModule GUIModule { get { return _guiModule; } }
         public IOModule IOModule { get { return _ioModule; } }
@@ -27,7 +25,6 @@ namespace Runningboy.Manager
             _guiModule = GetComponent<GUIModule>();
             _ioModule = GetComponent<IOModule>();
             _sceneModule = GetComponent<SceneModule>();
-            _playerData = GetComponent<PlayerData>();
         }
 
         public void StartGame(byte sector, Action<bool> onResponse)

@@ -5,9 +5,13 @@ using UnityEngine;
 
 namespace Runningboy.Data
 {
-    public sealed class PlayerData : MonoBehaviour
+    public class PlayerData
     {
-        SectionData lastCheckPoint;
+        public static PlayerData Instance = new PlayerData();
+
+        public SectionData lastCheckPoint;
+
+        #region Save/Load
 
         public void SaveData()
         {
@@ -18,5 +22,7 @@ namespace Runningboy.Data
         {
 
         }
+
+        #endregion
     }
 }

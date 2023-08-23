@@ -22,6 +22,8 @@ namespace Runningboy.GUI
             Time.timeScale = 1f;
         }
 
+        #region Button Events
+
         public void OnLobbyButton()
         {
             Hide();
@@ -65,5 +67,7 @@ namespace Runningboy.GUI
                 }
             });
         }
+
+        #endregion
     }
 }

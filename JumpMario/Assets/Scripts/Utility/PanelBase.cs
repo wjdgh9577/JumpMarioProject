@@ -14,5 +14,7 @@ namespace Runningboy.Utility
         {
             gameObject.SetActive(false);
         }
+
+        public virtual void Init() { }
     }
 }

@@ -1,5 +1,7 @@
 using UnityEngine;
 using Runningboy.GUI;
+using Cinemachine;
+using Runningboy.Data;
 
 namespace Runningboy.Module
 {
@@ -37,6 +39,31 @@ namespace Runningboy.Module
             {
                 _mainCamera = value;
             }
+        }
+
+        private CinemachineConfiner2D _confiner2D;
+        public CinemachineConfiner2D confiner2D
+        {
+            get
+            {
+                if (_confiner2D == null)
+                {
+                    _confiner2D = FindObjectOfType<CinemachineConfiner2D>();
+                }
+
+                return _confiner2D;
+            }
+            private set
+            {
+                _confiner2D = value;
+            }
+        }
+
+        // юс╫ц
+        private void Start()
+        {
+            lobbyPanel.Show();
+            PlayerData.Instance.LoadData();
         }
 
         public Vector3 ScreenToWorldPoint(in Vector2 screenPoint)

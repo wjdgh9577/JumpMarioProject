@@ -8,6 +8,8 @@ namespace Runningboy.GUI
 {
     public class LobbyPanel : PanelBase
     {
+        #region Button Events
+
         public void OnStartButton()
         {
             // TODO: Sector º±≈√
@@ -23,5 +25,7 @@ namespace Runningboy.GUI
                 }
             });
         }
+
+        #endregion
     }
 }

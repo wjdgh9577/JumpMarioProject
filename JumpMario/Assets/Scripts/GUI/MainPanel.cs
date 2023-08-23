@@ -12,6 +12,8 @@ namespace Runningboy.GUI
         [SerializeField]
         Text _roomText;
 
+        #region Button Events
+
         public void OnMenuButton()
         {
             GameManager.instance.GUIModule.menuPanel.Show();
@@ -22,6 +24,6 @@ namespace Runningboy.GUI
             GameManager.instance.GUIModule.worldMapPanel.Show();
         }
 
-
+        #endregion
     }
 }

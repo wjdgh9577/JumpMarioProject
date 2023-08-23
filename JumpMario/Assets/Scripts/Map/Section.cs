@@ -41,15 +41,7 @@ namespace Runningboy.Map
         {
             if (collision.CompareTag("Player"))
             {
-                MapManager.instance.RegistNextSection(this);
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                MapManager.instance.ChangeSection(this);
+                MapManager.instance.EnterSection(this);
             }
         }
 
@@ -94,6 +86,8 @@ namespace Runningboy.Map
             });
             polygonCollider2D.offset = _marker.transform.localPosition;
 
+            SetActiveTileMap(false);
+
             return sectionData;
         }
 
@@ -102,7 +96,7 @@ namespace Runningboy.Map
             _tileMapGrid.SetActive(active);
         }
 
-        public void ReturnToCheckPoint(Transform tm)
+        public void SetPlayerToCheckPoint(Transform tm)
         {
             tm.position = _checkPoint.transform.position;
         }
