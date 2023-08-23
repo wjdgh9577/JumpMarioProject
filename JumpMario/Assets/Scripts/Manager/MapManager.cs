@@ -14,10 +14,12 @@ namespace Runningboy.Manager
     {
         [SerializeField]
         GameObject player;
+        [SerializeField]
+        Background background;
 
-        // TODO: 메인 메뉴를 통한 스테이지 진입 구현 후 다시 수정 필요. 혹은 맵을 벗어나는 경우가 없도록 레벨 디자인에 신경써야 됨.
         private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
         private List<Section> sections = new List<Section>();
+        private Section currentSection = null;
 
         private void Start()
         {
@@ -44,7 +46,13 @@ namespace Runningboy.Manager
 
         private void UpdateSection(Section section)
         {
-            PlayerData.Instance.visitSections.Add(section.sectionData);
+            if (currentSection != null && currentSection.sectionData.sectorNumber != section.sectionData.sectorNumber)
+            {
+                background.SetBackground(currentSection.sectionData.sectorNumber, section.sectionData.sectorNumber);
+            }
+            currentSection = section;
+
+            PlayerData.instance.visitSections.Add(section.sectionData);
 
             sections.Add(section);
             section.SetActiveSection(true);
@@ -60,6 +68,7 @@ namespace Runningboy.Manager
             sections.Clear();
         }
 
+        [Button]
         public bool SetMap(byte sectorNum, byte sectionNum)
         {
             SectionData key = new SectionData(sectorNum, sectionNum);
@@ -67,12 +76,11 @@ namespace Runningboy.Manager
             if (sectionDic.TryGetValue(key, out Section section))
             {
                 player.SetActive(false);
-                
                 section.SetPlayerToCheckPoint(player.transform);
-
                 ClearSections();
-
                 player.SetActive(true);
+
+                background.SetBackground(sectorNum);
 
                 return true;
             }

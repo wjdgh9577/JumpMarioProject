@@ -63,7 +63,7 @@ namespace Runningboy.Module
         private void Start()
         {
             lobbyPanel.Show();
-            PlayerData.Instance.LoadData();
+            PlayerData.instance.LoadData();
         }
 
         public Vector3 ScreenToWorldPoint(in Vector2 screenPoint)

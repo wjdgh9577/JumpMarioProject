@@ -44,8 +44,8 @@ namespace Runningboy.Manager
 
         public void RestartGame(Action<bool> onResponse)
         {
-            // TODO: 최근 체크포인트에서 시작
-            if (MapManager.instance.SetMap(1, 1))
+            var data = PlayerData.instance;
+            if (data.life > 0 && MapManager.instance.SetMap(data.lastCheckPoint.sectorNumber, 1))
             {
                 onResponse(true);
             }

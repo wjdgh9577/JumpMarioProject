@@ -111,7 +111,7 @@ namespace Runningboy.Map
 
         private void SetActiveMarker(bool active)
         {
-            _marker.gameObject.SetActive(PlayerData.Instance.visitSections.Contains(sectionData));
+            _marker.gameObject.SetActive(PlayerData.instance.visitSections.Contains(sectionData));
             _marker.color = active ? Color.yellow : Color.white;
         }
 

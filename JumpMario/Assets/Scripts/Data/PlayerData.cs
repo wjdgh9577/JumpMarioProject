@@ -7,11 +7,13 @@ namespace Runningboy.Data
 {
     public class PlayerData
     {
-        public static PlayerData Instance = new PlayerData();
+        public static PlayerData instance = new PlayerData();
 
-        public SectionData lastCheckPoint;
+        public SectionData lastCheckPoint = new SectionData(1, 1);
 
         public HashSet<SectionData> visitSections = new HashSet<SectionData>();
+
+        public int life = 5;
 
         #region Save/Load
 
