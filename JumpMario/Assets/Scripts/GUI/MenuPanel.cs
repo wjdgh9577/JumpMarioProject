@@ -1,3 +1,4 @@
+using Runningboy.Data;
 using Runningboy.Manager;
 using Runningboy.Utility;
 using System.Collections;
@@ -53,7 +54,7 @@ namespace Runningboy.GUI
         public void OnBaseCampButton()
         {
             // TODO: 최근 체크포인트의 베이스캠프로
-            GameManager.instance.StartGame(1, (success) =>
+            GameManager.instance.StartGame(PlayerData.instance.lastCheckPoint.sectorNumber, (success) =>
             {
                 if (success)
                 {

@@ -17,14 +17,16 @@ namespace Runningboy.Data
 
         #region Save/Load
 
-        public void SaveData()
+        public void SaveData(SectionData data)
         {
+            lastCheckPoint = data;
 
+            // TODO: 클라우드에 저장
         }
 
         public void LoadData()
         {
-
+            // TODO: 클라우드에서 불러오기
         }
 
         #endregion

@@ -19,7 +19,9 @@ namespace Runningboy.Manager
 
         private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
         private List<Section> sections = new List<Section>();
-        private Section currentSection = null;
+
+        [ReadOnly]
+        public Section currentSection = null;
 
         private void Start()
         {
@@ -81,6 +83,23 @@ namespace Runningboy.Manager
                 player.SetActive(true);
 
                 background.SetBackground(sectorNum);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool SetMap(SectionData key)
+        {
+            if (sectionDic.TryGetValue(key, out Section section))
+            {
+                player.SetActive(false);
+                section.SetPlayerToCheckPoint(player.transform);
+                ClearSections();
+                player.SetActive(true);
+
+                background.SetBackground(key.sectorNumber);
 
                 return true;
             }

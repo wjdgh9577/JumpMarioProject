@@ -45,14 +45,20 @@ namespace Runningboy.Manager
         public void RestartGame(Action<bool> onResponse)
         {
             var data = PlayerData.instance;
-            if (data.life > 0 && MapManager.instance.SetMap(data.lastCheckPoint.sectorNumber, 1))
+            if (data.life > 0 && MapManager.instance.SetMap(data.lastCheckPoint))
             {
+                // TODO: life 1 °¨¼Ò
                 onResponse(true);
             }
             else
             {
                 onResponse(false);
             }
+        }
+
+        public void SaveGame()
+        {
+            PlayerData.instance.SaveData(MapManager.instance.currentSection.sectionData);
         }
     }
 }
