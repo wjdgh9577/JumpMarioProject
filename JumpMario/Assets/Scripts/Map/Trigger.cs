@@ -11,6 +11,7 @@ namespace Runningboy.Map
         FadeoutTileMap,
     }
 
+    [RequireComponent(typeof(BoxCollider2D))]
     public class Trigger : MonoBehaviour
     {
         [SerializeField]
