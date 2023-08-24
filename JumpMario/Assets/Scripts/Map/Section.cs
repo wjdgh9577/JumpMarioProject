@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Runningboy.Map
 {
@@ -42,6 +43,8 @@ namespace Runningboy.Map
 
         [Header("Sector/Section Data"), HideLabel, ReadOnly]
         public SectionData sectionData;
+
+        List<Trigger> triggers;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -92,6 +95,16 @@ namespace Runningboy.Map
             });
             polygonCollider2D.offset = _marker.transform.localPosition;
 
+            if (triggers == null)
+            {
+                triggers = GetComponentsInChildren<Trigger>().ToList();
+            }
+            foreach (Trigger trigger in triggers)
+            {
+                trigger.gameObject.SetActive(true);
+
+            }
+
             SetActiveSection(false);
 
             return sectionData;
@@ -99,7 +112,6 @@ namespace Runningboy.Map
 
         public void SetActiveSection(bool active)
         {
-
             SetActiveTileMap(active);
             SetActiveMarker(active);
         }
