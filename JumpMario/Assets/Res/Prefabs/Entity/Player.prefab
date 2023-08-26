@@ -448,7 +448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5749018909818468549
 Transform:
   m_ObjectHideFlags: 0
@@ -621,8 +621,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03800851, y: -0.06645727}
-  m_Size: {x: 0.8, y: 0.876017}
+  m_Offset: {x: 0.027396888, y: 0.13999999}
+  m_Size: {x: 0.6726605, y: 0.876017}
   m_Direction: 0
 --- !u!58 &3557775264014827026
 CircleCollider2D:
@@ -656,7 +656,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3}
+  m_Offset: {x: 0, y: -0.2}
   serializedVersion: 2
   m_Radius: 0.3
 --- !u!120 &6991820139358874639

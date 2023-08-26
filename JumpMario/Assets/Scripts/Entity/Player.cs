@@ -61,7 +61,7 @@ namespace Runningboy.Entity
             {
                 foreach (var contact in collision.contacts)
                 {
-                    if (contact.normal.y > 0)
+                    if (contact.normal.y > 0.1f)
                         goto _loop;
                 }
                 return;
@@ -143,7 +143,7 @@ namespace Runningboy.Entity
                         }
                         break;
                     case EntityStatus.Jump:
-                        if (range >= _minRange && Mathf.Abs(_rigidbody.velocity.y) <= _superJumpAllowable) // Super Jump
+                        if (range >= _minRange/* && Mathf.Abs(_rigidbody.velocity.y) <= _superJumpAllowable*/) // Super Jump
                         {
                             range = Mathf.Min(range, _maxRange);
 
