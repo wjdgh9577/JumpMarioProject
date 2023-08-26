@@ -26,17 +26,15 @@ namespace Runningboy.Map
         private void OnEnable()
         {
             _used = false;
+            gameObject.layer = LayerMask.NameToLayer("Trigger");
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!_used && collision.CompareTag("Player"))
-            {
-                if (!_recycle)
-                    _used = true;
+            if (!_recycle)
+                _used = true;
 
-                TurnOnTrigger();
-            }
+            TurnOnTrigger();
         }
 
         private void TurnOnTrigger()

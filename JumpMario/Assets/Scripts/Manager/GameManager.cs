@@ -65,7 +65,7 @@ namespace Runningboy.Manager
 
         public void SaveGame()
         {
-            PlayerData.instance.SaveData(MapManager.instance.currentSection.sectionData);
+            PlayerData.instance.SaveData(MapManager.instance.currentSectionData);
         }
     }
 }

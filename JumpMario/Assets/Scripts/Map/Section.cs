@@ -28,14 +28,13 @@ namespace Runningboy.Map
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player"))
-            {
-                MapManager.instance.EnterSection(this);
-            }
+            MapManager.instance.EnterSection(this);
         }
 
         public SectionData? Init()
         {
+            gameObject.layer = LayerMask.NameToLayer("Sector");
+
             var data =  gameObject.name.Split('_');
 
             if (data.Length != 2 )

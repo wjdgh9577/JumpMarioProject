@@ -13,12 +13,12 @@ TagManager:
   - Water
   - UI
   - Marker
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Player_Body
+  - Ground
+  - Sector
+  - Trigger
+  - Interactable
   - 
   - 
   - 

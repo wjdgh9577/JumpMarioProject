@@ -11,14 +11,11 @@ namespace Runningboy.Map
     {
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player"))
+            if (MapManager.instance.currentSectionData.sectionNumber == 1)
             {
-                if (MapManager.instance.currentSection.sectionData.sectionNumber == 1)
-                {
-                    PlayerData.instance.SetLifeMax();
-                }
-                GameManager.instance.SaveGame();
+                PlayerData.instance.SetLifeMax();
             }
+            GameManager.instance.SaveGame();Debug.Log("111");
         }
     }
 }

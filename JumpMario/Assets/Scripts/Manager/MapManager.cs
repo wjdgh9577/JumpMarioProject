@@ -17,8 +17,10 @@ namespace Runningboy.Manager
         [SerializeField]
         Background background;
 
-        [ReadOnly]
-        public Section currentSection = null;
+        [SerializeField, ReadOnly]
+        Section currentSection = null;
+
+        public SectionData currentSectionData { get { return currentSection.sectionData; } }
 
         private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
         private List<Section> sections = new List<Section>();
