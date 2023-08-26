@@ -73,6 +73,21 @@ namespace Runningboy.Data
             return false;
         }
 
+        public List<byte> GetVisitSectors()
+        {
+            List<byte> result = new List<byte>();
+
+            foreach (var section in saveData.visitSections)
+            {
+                if (result.Contains(section.sectorNumber))
+                    continue;
+                result.Add(section.sectorNumber);
+            }
+            result.Sort();
+
+            return result;
+        }
+
         public bool isVisitedSection(SectionData sectionData)
         {
             return saveData.visitSections.Contains(sectionData);

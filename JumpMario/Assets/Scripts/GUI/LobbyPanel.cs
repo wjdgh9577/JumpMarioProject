@@ -17,7 +17,11 @@ namespace Runningboy.GUI
         GameObject _sectorSelect;
 
         [SerializeField]
-        private Toggle[] _sectorToggles;
+        private Transform _toggleRoot;
+        [SerializeField]
+        private GameObject _togglePrefab;
+        [SerializeField]
+        private List<SectorToggle> _sectorToggles = new List<SectorToggle>();
         [SerializeField, ReadOnly]
         private byte _sector = 1;
 
@@ -26,7 +30,8 @@ namespace Runningboy.GUI
         public void OnNewGameButton()
         {
             PlayerData.instance.NewGameData();
-            Login();
+            _sector = 1;
+            OnStartButton();
         }
 
         public void OnLoadGameButton()
@@ -69,12 +74,42 @@ namespace Runningboy.GUI
             _login.SetActive(false);
             _sectorSelect.SetActive(true);
 
-            for (int i = 1; i < _sectorToggles.Length; i++)
+            SetSectorToggles();
+        }
+
+        public void SetSectorToggles()
+        {
+            for (int i = 0; i < _sectorToggles.Count; i++)
             {
-                _sectorToggles[i].gameObject.SetActive(PlayerData.instance.isVisitSector((byte)(i + 1)));
+                _sectorToggles[i].gameObject.SetActive(false);
             }
-            _sectorToggles[0].gameObject.SetActive(true);
-            _sectorToggles[0].isOn = true;
+
+            var sectorLIst = PlayerData.instance.GetVisitSectors();
+
+            for (int i = 0; i < sectorLIst.Count; i++)
+            {
+                SectorToggle _toggle = null;
+                try
+                {
+                    _toggle = _sectorToggles[i];
+                }
+                catch
+                {
+                    _toggle = Instantiate(_togglePrefab, _toggleRoot).GetComponent<SectorToggle>();
+                    _sectorToggles.Add(_toggle);
+                }
+                finally
+                {
+                    var _sectorNumber = (byte)(i + 1);
+                    _toggle.gameObject.SetActive(true);
+                    _toggle.SetToggle(_sectorNumber, () =>
+                    {
+                        _sector = _sectorNumber;
+                    });
+                }
+            }
+
+            _sectorToggles[0].Select();
         }
 
         public void SetCurrentSector(int sector)

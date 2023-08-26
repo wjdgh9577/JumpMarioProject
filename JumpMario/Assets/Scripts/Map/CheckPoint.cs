@@ -15,7 +15,7 @@ namespace Runningboy.Map
             {
                 PlayerData.instance.SetLifeMax();
             }
-            GameManager.instance.SaveGame();Debug.Log("111");
+            GameManager.instance.SaveGame();
         }
     }
 }
