@@ -35,7 +35,7 @@ namespace Runningboy.Entity
             _superJumpAllowable = 1f;
         }
 
-        private void OnEnable()
+        private void Start()
         {
             GameManager instance = GameManager.instance;
             instance.IOModule.onBeginDrag += OnBeginDrag;
@@ -45,14 +45,6 @@ namespace Runningboy.Entity
             tag = "Player";
             correctCoroutine = CorrectCoroutine();
             Correct();
-        }
-
-        private void OnDisable()
-        {
-            GameManager instance = GameManager.instance;
-            instance.IOModule.onBeginDrag -= OnBeginDrag;
-            instance.IOModule.onDuringDrag -= OnDuringDrag;
-            instance.IOModule.onEndDrag -= OnEndDrag;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

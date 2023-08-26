@@ -10,26 +10,6 @@ using System.Linq;
 
 namespace Runningboy.Map
 {
-    [Serializable]
-    public struct SectionData
-    {
-        [HorizontalGroup("")]
-        public byte sectorNumber;
-        [HorizontalGroup("")]
-        public byte sectionNumber;
-
-        public SectionData(byte sector, byte section)
-        {
-            sectorNumber = sector;
-            sectionNumber = section;
-        }
-
-        public override string ToString()
-        {
-            return $"{sectorNumber} - {sectionNumber}";
-        }
-    }
-
     public class Section : MonoBehaviour
     {
         [Header("Components")]
@@ -123,7 +103,7 @@ namespace Runningboy.Map
 
         private void SetActiveMarker(bool active)
         {
-            _marker.gameObject.SetActive(PlayerData.instance.visitSections.Contains(sectionData));
+            _marker.gameObject.SetActive(PlayerData.instance.isVisitedSection(sectionData));
             _marker.color = active ? Color.yellow : Color.white;
         }
 

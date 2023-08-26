@@ -41,8 +41,6 @@ namespace Runningboy.GUI
                 if (success)
                 {
                     Hide();
-
-                    // TODO: MainPanel¿« life 1 ∞®º“
                 }
                 else
                 {

@@ -17,14 +17,18 @@ namespace Runningboy.Manager
         [SerializeField]
         Background background;
 
-        private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
-        private List<Section> sections = new List<Section>();
-
         [ReadOnly]
         public Section currentSection = null;
 
-        private void Start()
+        private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
+        private List<Section> sections = new List<Section>();
+
+        public event Action<SectionData> onSectionChanged;
+
+        public void Init()
         {
+            sectionDic.Clear();
+
             var sections = GetComponentsInChildren<Section>();
             foreach (var section in sections)
             {
@@ -54,13 +58,14 @@ namespace Runningboy.Manager
             }
             currentSection = section;
 
-            PlayerData.instance.visitSections.Add(section.sectionData);
+            PlayerData.instance.VisitSection(section.sectionData);
 
             sections.Add(section);
             section.SetActiveSection(true);
 
             GameManager.instance.GUIModule.confiner2D.m_BoundingShape2D = section.polygonCollider2D;
-            GameManager.instance.GUIModule.mainPanel.SetSectionText(section.sectionData);
+
+            onSectionChanged?.Invoke(section.sectionData);
         }
 
         private void ClearSections()
@@ -70,7 +75,6 @@ namespace Runningboy.Manager
             sections.Clear();
         }
 
-        [Button]
         public bool SetMap(byte sectorNum, byte sectionNum)
         {
             SectionData key = new SectionData(sectorNum, sectionNum);

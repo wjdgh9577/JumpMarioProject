@@ -59,12 +59,6 @@ namespace Runningboy.Module
             }
         }
 
-        // юс╫ц
-        private void Start()
-        {
-            lobbyPanel.Show();
-        }
-
         public Vector3 ScreenToWorldPoint(in Vector2 screenPoint)
         {
             Vector3 screenPoint3 = new Vector3(screenPoint.x, screenPoint.y, 0);

@@ -1,6 +1,8 @@
+using Runningboy.Data;
 using Runningboy.Manager;
 using Runningboy.Map;
 using Runningboy.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +14,14 @@ namespace Runningboy.GUI
     {
         [SerializeField]
         Text _sectionText;
+        [SerializeField]
+        Text _lifeText;
+
+        private void Start()
+        {
+            MapManager.instance.onSectionChanged += SetSectionText;
+            PlayerData.instance.onLifeChanged += UpdateLifeText;
+        }
 
         #region Button Events
 
@@ -30,6 +40,11 @@ namespace Runningboy.GUI
         public void SetSectionText(SectionData sectionData)
         {
             _sectionText.text = sectionData.ToString();
+        }
+
+        public void UpdateLifeText(int current, int max)
+        {
+            _lifeText.text = $"{current}/{max}";
         }
     }
 }

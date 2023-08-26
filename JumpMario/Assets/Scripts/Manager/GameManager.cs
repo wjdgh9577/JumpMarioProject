@@ -4,6 +4,7 @@ using Runningboy.Module;
 using Runningboy.Data;
 using Sirenix.OdinInspector;
 using System;
+using Runningboy.GUI;
 
 namespace Runningboy.Manager
 {
@@ -27,6 +28,12 @@ namespace Runningboy.Manager
             _sceneModule = GetComponent<SceneModule>();
         }
 
+        // 임시
+        private void Start()
+        {
+            GUIModule.lobbyPanel.Show();
+        }
+
         public void StartGame(byte sector, Action<bool> onResponse)
         {
             // TODO: 화면 연출 구현
@@ -34,6 +41,7 @@ namespace Runningboy.Manager
             // TODO: 선택한 sector의 section 1에서 시작
             if (MapManager.instance.SetMap(sector, 1))
             {
+                PlayerData.instance.SetLifeMax();
                 onResponse(true);
             }
             else
@@ -45,9 +53,8 @@ namespace Runningboy.Manager
         public void RestartGame(Action<bool> onResponse)
         {
             var data = PlayerData.instance;
-            if (data.life > 0 && MapManager.instance.SetMap(data.lastCheckPoint))
+            if (data.ReduceLIfe() && MapManager.instance.SetMap(data.lastCheckPoint))
             {
-                // TODO: life 1 감소
                 onResponse(true);
             }
             else

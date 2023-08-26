@@ -1,3 +1,4 @@
+using Runningboy.Data;
 using Runningboy.Manager;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace Runningboy.Map
         {
             if (collision.CompareTag("Player"))
             {
+                if (MapManager.instance.currentSection.sectionData.sectionNumber == 1)
+                {
+                    PlayerData.instance.SetLifeMax();
+                }
                 GameManager.instance.SaveGame();
             }
         }
