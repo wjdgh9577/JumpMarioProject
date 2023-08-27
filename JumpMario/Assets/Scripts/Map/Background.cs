@@ -1,4 +1,5 @@
 using Runningboy.Manager;
+using Runningboy.Data;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,12 +11,12 @@ namespace Runningboy.Map
      * 스크립트 실행 순서를 카메라 스크립트 이후로 조절했음.
      * 작성시 참고할 것.
      */
-    public class Background : SerializedMonoBehaviour
+    public class Background : MonoBehaviour
     {
         [SerializeField]
         SpriteRenderer _spriteRenderer;
-        [SerializeField, DictionaryDrawerSettings(KeyLabel = "Sector", ValueLabel = "Sprite")]
-        Dictionary<byte, Sprite> _sectorBackgrounds = new Dictionary<byte, Sprite>();
+        [SerializeField]
+        BackgroundData _backgroundData;
 
         Camera _camera;
 
@@ -31,7 +32,7 @@ namespace Runningboy.Map
 
         public void SetBackground(byte sectorNumber)
         {
-            if (_sectorBackgrounds.TryGetValue(sectorNumber, out Sprite sprite))
+            if (_backgroundData.TryGetValue(sectorNumber, out Sprite sprite))
             {
                 _spriteRenderer.sprite = sprite;
 
@@ -57,7 +58,7 @@ namespace Runningboy.Map
 
         public void SetBackground(byte sectorNumberFrom, byte sectorNumberTo)
         {
-            // TODO: 섹터 이동 이벤트
+            // TODO: 섹터 이동 이벤트, 쉐이더 그래프 사용 고려
         }
     }
 }

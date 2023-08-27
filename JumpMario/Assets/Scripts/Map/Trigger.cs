@@ -9,6 +9,7 @@ namespace Runningboy.Map
     public enum TriggerBehaviour
     {
         FadeoutTileMap,
+        Cutscene,
     }
 
     [RequireComponent(typeof(BoxCollider2D))]
@@ -16,7 +17,7 @@ namespace Runningboy.Map
     {
         [SerializeField]
         TriggerBehaviour _triggerBehaviour;
-        [SerializeField]
+        [SerializeField, ShowIf("_triggerBehaviour", TriggerBehaviour.FadeoutTileMap)]
         GameObject[] _targets;
         [SerializeField]
         bool _recycle = false;
@@ -44,8 +45,12 @@ namespace Runningboy.Map
                 case TriggerBehaviour.FadeoutTileMap:
                     FadeOutTileMap();
                     break;
+                case TriggerBehaviour.Cutscene:
+                    break;
             }
         }
+
+        #region FadeOutTileMap
 
         Tilemap[] tilemaps = null;
         private void FadeOutTileMap()
@@ -87,5 +92,10 @@ namespace Runningboy.Map
                 tilemap.gameObject.SetActive(false);
             }
         }
+
+        #endregion
+
+        #region Cutscene
+        #endregion
     }
 }

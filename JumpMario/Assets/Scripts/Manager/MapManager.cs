@@ -25,6 +25,7 @@ namespace Runningboy.Manager
         private Dictionary<SectionData, Section> sectionDic = new Dictionary<SectionData, Section>();
         private List<Section> sections = new List<Section>();
 
+        public event Action onSectorChanged;
         public event Action<SectionData> onSectionChanged;
 
         public void Init()
@@ -56,6 +57,9 @@ namespace Runningboy.Manager
         {
             if (currentSection != null && currentSection.sectionData.sectorNumber != section.sectionData.sectorNumber)
             {
+                // 다른 섹터로 이동한 경우
+                // TODO: 섹터 팝업 표시
+                onSectorChanged?.Invoke();
                 background.SetBackground(currentSection.sectionData.sectorNumber, section.sectionData.sectorNumber);
             }
             currentSection = section;
@@ -81,19 +85,7 @@ namespace Runningboy.Manager
         {
             SectionData key = new SectionData(sectorNum, sectionNum);
 
-            if (sectionDic.TryGetValue(key, out Section section))
-            {
-                player.SetActive(false);
-                section.SetPlayerToCheckPoint(player.transform);
-                ClearSections();
-                player.SetActive(true);
-
-                background.SetBackground(sectorNum);
-
-                return true;
-            }
-
-            return false;
+            return SetMap(key);
         }
 
         public bool SetMap(SectionData key)

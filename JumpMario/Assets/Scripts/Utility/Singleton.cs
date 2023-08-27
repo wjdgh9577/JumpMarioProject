@@ -50,7 +50,6 @@ namespace Runningboy.Utility
                 return;
 
             _instance = null;
-            Debug.Log(gameObject);
         }
 
         private static void SetInstance(T inst)
