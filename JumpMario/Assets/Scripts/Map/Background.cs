@@ -22,7 +22,7 @@ namespace Runningboy.Map
 
         private void Start()
         {
-            _camera = GameManager.instance.GUIModule.mainCamera;
+            _camera = GameManager.instance.IOModule.mainCamera;
         }
 
         private void LateUpdate()

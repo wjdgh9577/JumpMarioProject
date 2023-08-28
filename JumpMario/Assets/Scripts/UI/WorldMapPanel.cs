@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Runningboy.Utility;
 
-namespace Runningboy.GUI
+namespace Runningboy.UI
 {
-    public class WorldMapPanel : PanelBase
+    public class WorldMapPanel : UIView
     {
         public override void Show()
         {

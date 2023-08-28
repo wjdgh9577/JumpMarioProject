@@ -1,13 +1,12 @@
 using Runningboy.Data;
 using Runningboy.Manager;
-using Runningboy.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runningboy.GUI
+namespace Runningboy.UI
 {
-    public class MenuPanel : PanelBase
+    public class MenuPanel : UIView
     {
         public override void Show()
         {
@@ -29,9 +28,10 @@ namespace Runningboy.GUI
         {
             Hide();
 
-            // TODO: ¸Ê Á¤¸®
+            MapManager.instance.ClearMap();
 
-            GameManager.instance.GUIModule.lobbyPanel.Show();
+            var view = GetView("LobbyPanel");
+            view?.Show();
         }
 
         public void OnCheckPointButton()

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Runningboy.Collection;
+using Cinemachine;
 
 namespace Runningboy.Module
 {
@@ -47,6 +48,53 @@ namespace Runningboy.Module
         #region Sound
 
 
+
+        #endregion
+
+        #region Screen
+
+        private Camera _mainCamera;
+        public Camera mainCamera
+        {
+            get
+            {
+                if (_mainCamera == null)
+                {
+                    _mainCamera = Camera.main;
+                }
+                return _mainCamera;
+            }
+            private set
+            {
+                _mainCamera = value;
+            }
+        }
+
+        private CinemachineConfiner2D _confiner2D;
+        public CinemachineConfiner2D confiner2D
+        {
+            get
+            {
+                if (_confiner2D == null)
+                {
+                    _confiner2D = FindObjectOfType<CinemachineConfiner2D>();
+                }
+
+                return _confiner2D;
+            }
+            private set
+            {
+                _confiner2D = value;
+            }
+        }
+
+        public Vector3 ScreenToWorldPoint(in Vector2 screenPoint)
+        {
+            Vector3 screenPoint3 = new Vector3(screenPoint.x, screenPoint.y, 0);
+            Vector3 returnPoint = mainCamera.ScreenToWorldPoint(screenPoint3);
+
+            return returnPoint;
+        }
 
         #endregion
     }

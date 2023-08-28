@@ -1,23 +1,21 @@
 using Runningboy.Data;
 using Runningboy.Manager;
-using Runningboy.Map;
-using Runningboy.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runningboy.GUI
+namespace Runningboy.UI
 {
-    public class MainPanel : PanelBase
+    public class MainPanel : UIView
     {
         [SerializeField]
         Text _sectionText;
         [SerializeField]
         Text _lifeText;
 
-        private void Start()
+        protected void Start()
         {
             MapManager.instance.onSectionChanged += SetSectionText;
             PlayerData.instance.onLifeChanged += UpdateLifeText;
@@ -27,12 +25,14 @@ namespace Runningboy.GUI
 
         public void OnMenuButton()
         {
-            GameManager.instance.GUIModule.menuPanel.Show();
+            var view = GetView("MenuPanel");
+            view?.Show();
         }
 
         public void OnWorldMapButton()
         {
-            GameManager.instance.GUIModule.worldMapPanel.Show();
+            var view = GetView("WorldMapPanel");
+            view?.Show();
         }
 
         #endregion

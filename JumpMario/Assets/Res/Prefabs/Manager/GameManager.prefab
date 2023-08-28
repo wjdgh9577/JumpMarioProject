@@ -449,7 +449,6 @@ GameObject:
   m_Component:
   - component: {fileID: 644524312430080920}
   - component: {fileID: 1540744340468013886}
-  - component: {fileID: 2766583167296035716}
   - component: {fileID: 2288287149853609062}
   - component: {fileID: 8623598886181828291}
   - component: {fileID: 1314308595050912858}
@@ -501,26 +500,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  _guiModule: {fileID: 2766583167296035716}
+  _guiModule: {fileID: 0}
   _ioModule: {fileID: 2288287149853609062}
   _sceneModule: {fileID: 8623598886181828291}
---- !u!114 &2766583167296035716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775721444487307740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dc633e789b795d49973a4e0e375332f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inputLayer: {fileID: 6219700013216079323}
-  _lobbyPanel: {fileID: 1965088488696368186}
-  _mainPanel: {fileID: 7813533847479175701}
-  _menuPanel: {fileID: 1586198850842277030}
-  _worldMapPanel: {fileID: 4932525642601536539}
 --- !u!114 &2288287149853609062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,6 +1502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea1fd3110c4cb9409e708d151e2373e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewID: MainPanel
   _sectionText: {fileID: 6712725961443825957}
   _lifeText: {fileID: 5765942571676382231}
 --- !u!222 &7985397183035033392
@@ -1968,6 +1951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca59b79ace300d409563ce18d952424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewID: InputLayer
   _touchPin: {fileID: 5088112414415093964}
   _touchScroll: {fileID: 6451094090218896731}
 --- !u!114 &6409511157142753811
@@ -3050,6 +3034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549c972be1099e74284acb8738dc5c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewID: LobbyPanel
   _login: {fileID: 1302044114560462120}
   _sectorSelect: {fileID: 2815579698150597833}
   _toggleRoot: {fileID: 2715226920585332320}
@@ -3149,6 +3134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55672f64ae5e98458de0a04aefdb4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewID: MenuPanel
 --- !u!222 &5230171703101827987
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3840,6 +3826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2262ebbd8d7244941bf641946ae45f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewID: WorldMapPanel
 --- !u!222 &1065141297722828353
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -69,7 +69,7 @@ namespace Runningboy.Manager
             sections.Add(section);
             section.SetActiveSection(true);
 
-            GameManager.instance.GUIModule.confiner2D.m_BoundingShape2D = section.polygonCollider2D;
+            GameManager.instance.IOModule.confiner2D.m_BoundingShape2D = section.polygonCollider2D;
 
             onSectionChanged?.Invoke(section.sectionData);
         }
@@ -77,8 +77,17 @@ namespace Runningboy.Manager
         private void ClearSections()
         {
             foreach (var section in sections)
+            {
+                // TODO: 섹션 내 트리거에 의한 장치들 초기화 필요
                 section.SetActiveSection(false);
+            }
             sections.Clear();
+        }
+
+        public void ClearMap()
+        {
+            player.SetActive(false);
+            ClearSections();
         }
 
         public bool SetMap(byte sectorNum, byte sectionNum)
@@ -92,9 +101,8 @@ namespace Runningboy.Manager
         {
             if (sectionDic.TryGetValue(key, out Section section))
             {
-                player.SetActive(false);
+                ClearMap();
                 section.SetPlayerToCheckPoint(player.transform);
-                ClearSections();
                 player.SetActive(true);
 
                 background.SetBackground(key.sectorNumber);

@@ -22,7 +22,7 @@ namespace Runningboy.Data
 
         public override string ToString()
         {
-            return $"{sectorNumber} - {sectionNumber}";
+            return $"{sectorNumber}_{sectionNumber}";
         }
     }
 
@@ -49,7 +49,7 @@ namespace Runningboy.Data
             }
         }
 
-        public static PlayerData instance = new PlayerData();
+        public static readonly PlayerData instance = new PlayerData();
 
         SaveDataFormat saveData = new SaveDataFormat();
         public SectionData lastCheckPoint = new SectionData(1, 1);

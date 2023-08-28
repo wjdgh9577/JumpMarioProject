@@ -2,28 +2,23 @@ using UnityEngine;
 using Runningboy.Utility;
 using Runningboy.Module;
 using Runningboy.Data;
-using Sirenix.OdinInspector;
+using Runningboy.UI;
 using System;
-using Runningboy.GUI;
 
 namespace Runningboy.Manager
 {
     public sealed class GameManager : Singleton<GameManager>
     {
         [SerializeField]
-        GUIModule _guiModule;
-        [SerializeField]
         IOModule _ioModule;
         [SerializeField]
         SceneModule _sceneModule;
 
-        public GUIModule GUIModule { get { return _guiModule; } }
         public IOModule IOModule { get { return _ioModule; } }
         public SceneModule SceneModule { get { return _sceneModule; } }
 
         private void Reset()
         {
-            _guiModule = GetComponent<GUIModule>();
             _ioModule = GetComponent<IOModule>();
             _sceneModule = GetComponent<SceneModule>();
         }
@@ -31,7 +26,10 @@ namespace Runningboy.Manager
         // юс╫ц
         private void Start()
         {
-            GUIModule.lobbyPanel.Show();
+            if (UIView.TryGetView("LobbyPanel", out var view))
+            {
+                view.Show();
+            }
         }
 
         public void StartGame(byte sector, Action<bool> onResponse)

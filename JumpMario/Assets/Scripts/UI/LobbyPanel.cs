@@ -7,9 +7,9 @@ using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using Runningboy.Data;
 
-namespace Runningboy.GUI
+namespace Runningboy.UI
 {
-    public class LobbyPanel : PanelBase
+    public class LobbyPanel : UIView
     {
         [SerializeField]
         GameObject _login;

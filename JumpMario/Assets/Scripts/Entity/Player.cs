@@ -95,8 +95,8 @@ namespace Runningboy.Entity
                     SetStatus(EntityStatus.Crouch);
                 }
 
-                Vector3 start = GameManager.instance.GUIModule.ScreenToWorldPoint(args.startScreenPosition);
-                Vector3 currnet = GameManager.instance.GUIModule.ScreenToWorldPoint(args.currentScreenPosition);
+                Vector3 start = GameManager.instance.IOModule.ScreenToWorldPoint(args.startScreenPosition);
+                Vector3 currnet = GameManager.instance.IOModule.ScreenToWorldPoint(args.currentScreenPosition);
 
                 RenderArrow(args.reverse ? currnet - start : start - currnet);
             }
@@ -111,8 +111,8 @@ namespace Runningboy.Entity
 
             if (callback is DragCallbackArgs args)
             {
-                Vector3 start = GameManager.instance.GUIModule.ScreenToWorldPoint(args.startScreenPosition);
-                Vector3 currnet = GameManager.instance.GUIModule.ScreenToWorldPoint(args.currentScreenPosition);
+                Vector3 start = GameManager.instance.IOModule.ScreenToWorldPoint(args.startScreenPosition);
+                Vector3 currnet = GameManager.instance.IOModule.ScreenToWorldPoint(args.currentScreenPosition);
 
                 Vector2 newVector = args.reverse ? currnet - start : start - currnet;
                 Vector2 normalized = newVector.normalized;

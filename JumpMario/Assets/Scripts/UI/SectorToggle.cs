@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runningboy.GUI
+namespace Runningboy.UI
 {
     public class SectorToggle : MonoBehaviour
     {
