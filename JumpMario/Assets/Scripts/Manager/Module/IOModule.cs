@@ -6,6 +6,8 @@ namespace Runningboy.Module
 {
     public sealed class IOModule : MonoBehaviour
     {
+        #region Drag
+
         public event EventHandler onBeginDrag;
         public event EventHandler onDuringDrag;
         public event EventHandler onEndDrag;
@@ -39,5 +41,13 @@ namespace Runningboy.Module
             dragCallbackArgs.reverse = _reverse;
             onEndDrag?.Invoke(sender, dragCallbackArgs);
         }
+
+        #endregion
+
+        #region Sound
+
+
+
+        #endregion
     }
 }

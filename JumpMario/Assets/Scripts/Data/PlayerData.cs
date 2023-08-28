@@ -11,9 +11,7 @@ namespace Runningboy.Data
     [Serializable]
     public struct SectionData
     {
-        [HorizontalGroup("")]
         public byte sectorNumber;
-        [HorizontalGroup("")]
         public byte sectionNumber;
 
         public SectionData(byte sector, byte section)
