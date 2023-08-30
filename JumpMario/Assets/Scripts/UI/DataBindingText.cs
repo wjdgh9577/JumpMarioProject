@@ -20,6 +20,21 @@ namespace Runningboy.UI
 
         private void OnEnable()
         {
+            if (_textComponent == null)
+            {
+                _textComponent = gameObject.GetComponent<Text>();
+                
+                if (_textComponent == null)
+                {
+                    Debug.LogErrorFormat("{0} doesn't have a text component.", gameObject.name);
+                }
+            }
+            if (string.IsNullOrEmpty(_dataID))
+            {
+                Debug.LogWarningFormat("Invalid text data ID. {0}", gameObject.name);
+                _dataID = gameObject.name;
+            }
+            
             _data = UIView.GetValue(_dataID);
             _textComponent.text = _data.text;
             _data.callback += UpdateText;
