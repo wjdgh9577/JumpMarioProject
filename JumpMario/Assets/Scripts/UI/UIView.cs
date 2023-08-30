@@ -1,11 +1,33 @@
+using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Runningboy.UI
 {
+    public class TextData
+    {
+        public event Action<string> callback;
+
+        private string _text;
+        public string text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                callback?.Invoke(value);
+            }
+        }
+    }
+
     public abstract class UIView : MonoBehaviour
     {
         static Dictionary<string, UIView> _uiViewDictionary = null;
+        static Dictionary<string, TextData> _dataBindingTextDictionary = null;
 
         [SerializeField]
         string _viewID;
@@ -42,7 +64,36 @@ namespace Runningboy.UI
             {
                 return view;
             }
+
             return null;
+        }
+
+        public static void SetValue(string dataID, string data)
+        {
+            if (_dataBindingTextDictionary == null)
+                _dataBindingTextDictionary = new Dictionary<string, TextData>();
+
+            if (!_dataBindingTextDictionary.TryGetValue(dataID, out TextData textData))
+            {
+                textData = new TextData();
+                _dataBindingTextDictionary.Add(dataID, textData);
+            }
+
+            textData.text = data;
+        }
+
+        public static TextData GetValue(string dataID)
+        {
+            if (_dataBindingTextDictionary == null)
+                _dataBindingTextDictionary = new Dictionary<string, TextData>();
+
+            if (!_dataBindingTextDictionary.TryGetValue(dataID, out TextData textData))
+            {
+                textData = new TextData();
+                _dataBindingTextDictionary.Add(dataID, textData);
+            }
+
+            return textData;
         }
 
         #endregion

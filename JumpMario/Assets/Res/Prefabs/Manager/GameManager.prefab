@@ -500,7 +500,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  _guiModule: {fileID: 0}
   _ioModule: {fileID: 2288287149853609062}
   _sceneModule: {fileID: 8623598886181828291}
 --- !u!114 &2288287149853609062
@@ -1007,6 +1006,7 @@ GameObject:
   - component: {fileID: 5014907378820152129}
   - component: {fileID: 9036572516147842436}
   - component: {fileID: 6712725961443825957}
+  - component: {fileID: 213835171701260834}
   m_Layer: 5
   m_Name: RoomText
   m_TagString: Untagged
@@ -1076,6 +1076,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 1-1
+--- !u!114 &213835171701260834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2215884628322739495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f04d0d5bb6896a40b010ad098a6a2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textComponent: {fileID: 6712725961443825957}
+  _dataID: RoomText
 --- !u!1 &2737296504055443302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,8 +1517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewID: MainPanel
-  _sectionText: {fileID: 6712725961443825957}
-  _lifeText: {fileID: 5765942571676382231}
 --- !u!222 &7985397183035033392
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2110,6 +2122,7 @@ GameObject:
   - component: {fileID: 4528835004790788693}
   - component: {fileID: 2107789532921685764}
   - component: {fileID: 5765942571676382231}
+  - component: {fileID: 1298474096883770601}
   m_Layer: 5
   m_Name: LifeText
   m_TagString: Untagged
@@ -2179,6 +2192,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
+--- !u!114 &1298474096883770601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900161215979022469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f04d0d5bb6896a40b010ad098a6a2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textComponent: {fileID: 5765942571676382231}
+  _dataID: LifeText
 --- !u!1 &4653550008546445922
 GameObject:
   m_ObjectHideFlags: 0

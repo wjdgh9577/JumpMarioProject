@@ -10,11 +10,6 @@ namespace Runningboy.UI
 {
     public class MainPanel : UIView
     {
-        [SerializeField]
-        Text _sectionText;
-        [SerializeField]
-        Text _lifeText;
-
         protected void Start()
         {
             MapManager.instance.onSectionChanged += SetSectionText;
@@ -39,12 +34,12 @@ namespace Runningboy.UI
 
         public void SetSectionText(SectionData sectionData)
         {
-            _sectionText.text = sectionData.ToString();
+            SetValue("RoomText", sectionData.ToString());
         }
 
         public void UpdateLifeText(int current, int max)
         {
-            _lifeText.text = $"{current}/{max}";
+            SetValue("LifeText", $"{current}/{max}");
         }
     }
 }
