@@ -29,14 +29,14 @@ public class InputLayer : UIView, IBeginDragHandler, IDragHandler, IEndDragHandl
         startScreenPosition = eventData.pointerCurrentRaycast.screenPosition;
         _drawField = ObjectPoolManager.instance.Spawn<DrawField>(_drawFieldPrefab, _mainCamera.Focus);
         _drawField.transform.localPosition = Vector3.zero;
-        ScreenToLocal(startScreenPosition);
+        startScreenPosition = ScreenToLocal(startScreenPosition);
         onBeginDrag?.Invoke();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         currentScreenPosition = eventData.pointerCurrentRaycast.screenPosition;
-        ScreenToLocal(currentScreenPosition);
+        currentScreenPosition =  ScreenToLocal(currentScreenPosition);
         onDrag?.Invoke(startScreenPosition, currentScreenPosition);
     }
 
@@ -47,10 +47,12 @@ public class InputLayer : UIView, IBeginDragHandler, IDragHandler, IEndDragHandl
         onEndDrag?.Invoke(startScreenPosition, currentScreenPosition);
     }
 
-    private void ScreenToLocal(in Vector2 screenPosition)
+    private Vector3 ScreenToLocal(in Vector2 screenPosition)
     {
         Vector3 worldPosition = _mainCamera.Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, _mainCamera.Camera.focusDistance));
         Vector3 localPosition = _mainCamera.Focus.InverseTransformPoint(worldPosition);
         _drawField.DrawOnScreen(localPosition);
+
+        return localPosition;
     }
 }

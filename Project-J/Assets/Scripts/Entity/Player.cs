@@ -5,10 +5,6 @@ using System.Collections;
 
 public class Player : Entity
 {
-    [Header("Components")]
-    [SerializeField]
-    LineRenderer _arrow;
-
     [Header("Control Values")]
     [SerializeField]
     float _minRange = 0.1f;
@@ -22,7 +18,6 @@ public class Player : Entity
     protected override void Reset()
     {
         base.Reset();
-        _arrow = GetComponent<LineRenderer>();
 
         _status = EntityStatus.Idle;
         _minRange = 0.1f;
@@ -94,14 +89,10 @@ public class Player : Entity
         {
             SetStatus(EntityStatus.Crouch);
         }
-
-        RenderArrow(current - start);
     }
 
     private void OnEndDrag(Vector2 start, Vector2 current)
     {
-        _arrow.enabled = false;
-
         if ((_status & CannotJump) != 0)
             return;
 
@@ -140,16 +131,4 @@ public class Player : Entity
     }
 
     #endregion
-
-    private void RenderArrow(Vector3 vector)
-    {
-        _arrow.enabled = true;
-
-        float range = Mathf.Clamp(Mathf.Sqrt(vector.sqrMagnitude), 0, _maxRange);
-        Vector3 normalized = vector.normalized;
-
-        _arrow.endColor = range >= _minRange ? Color.green : Color.red;
-
-        _arrow.SetPosition(1, normalized * range);
-    }
 }
